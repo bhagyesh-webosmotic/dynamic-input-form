@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+      <div class="formDiv">
+        <form id="form">
+          <div id="staticForm">
+            <h2>Dynamically adding element inside the form.</h2>
+            <br />
+            <input type="text" name="idName" class="formFieldsStatic" id="idInput" />
+            <select name="element" class="formFieldsStatic">
+              <option value="text">Text</option>
+              <option value="date">Date</option>
+              <option value="datetime-local">Datetime</option>
+              <option value="number">Number</option>
+              <option value="color">Color</option>
+              <option value="range" min="0" max="50">Range</option>
+              <option value="email">E-mail</option>
+              <option value="submit">Submit</option>
+            </select>
+            <input type="button" class="btn" value="Add"
+              onclick="createMainInstance(document.forms[0][0].value, document.forms[0].element.value)" />
+            <button type="button" id="Refresh" class="btn" onclick="refreshPage();">Refresh</button>
+            <br>
+          </div>
+          <div id="dynamicForm">
+          </div>
+        </form>
+      </div>
+    </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+      <script src="./assets/sampleData.js"></script>
+      <script src="./src/subMain.js"></script>
+      <script src="./src/main.js"></script>
+</body>
+
+</html>
