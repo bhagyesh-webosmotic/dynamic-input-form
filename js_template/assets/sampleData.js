@@ -28,14 +28,14 @@ class Storage {
 			dataArray.push(obj);
 			localStorage["input"] = JSON.stringify(dataArray);
 		}
-		refreshPage();
 	}
 	removeRow(removeRowId) {
 		let dataArray = [];
 		dataArray = JSON.parse(localStorage["input"]);
 		dataArray.splice(removeRowId, 1);
 		localStorage["input"] = JSON.stringify(dataArray);
-		refreshPage();
+		let form = new Form();
+		form.refreshPage();
 	}
 	dataRetrieve() {
 		if (localStorage["input"] === undefined) {
