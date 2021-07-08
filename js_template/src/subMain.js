@@ -104,10 +104,6 @@ class Form {
 
 			let remove = document.createElement("button");
 			this.buttonAttrib(remove, fid);
-			// remove.setAttribute("type", "button");
-			// remove.setAttribute("name", fid);
-			// remove.setAttribute("class", "btn");
-
 			remove.setAttribute("id", fid);
 
 			remove.onclick = this.removeTempRow;
