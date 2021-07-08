@@ -47,14 +47,14 @@ body {
 	background-color: #fff;
 }
 .container {
-	width: 60%;
+	width: 70%;
 	margin: auto;
 	background-color: #ededed;
 }
 .formDiv {
 	margin-top: 50px;
 	padding: 20px 20px;
-	display: flex;
+	/* display: flex; */
 	justify-content: space-around;
 	border-radius: 10px;
 }
@@ -123,6 +123,13 @@ h3 {
 }
 .rangePicker {
 	height: 10px;
+}
+.row{
+
+}
+.checkbox{
+height: auto;
+width: auto;
 }
 
 @media screen and (max-width: 850px) {

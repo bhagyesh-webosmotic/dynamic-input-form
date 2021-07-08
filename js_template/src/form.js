@@ -92,24 +92,39 @@ class Form {
 
 	createForm(fid, type) {
 		if (fid) {
+      let rowDiv = document.createElement('div');
+      // rowDiv.className = fid;
+      rowDiv.setAttribute("id", fid)
+
 			let form = document.getElementById("dynamicForm");
+
+
+      let checkbox = document.createElement("INPUT");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.setAttribute("id", fid)
+      checkbox.setAttribute("class", "formFields");
+      checkbox.classList.add("checkbox");
+      checkbox.style.visibility = "hidden"
+      rowDiv.appendChild(checkbox);
+
 
 			let h3 = document.createElement("h3");
 			let textNode = document.createTextNode(fid);
 			h3.appendChild(textNode);
 			h3.setAttribute("name", fid);
-			form.appendChild(h3);
+      h3.setAttribute("class", fid)
+			rowDiv.appendChild(h3);
 
 			let input = document.createElement("input");
 			this.attrib(input, fid, type);
-			form.appendChild(input);
+			rowDiv.appendChild(input);
 
 			let save = document.createElement("button");
 			this.buttonAttrib(save, fid, type);
 
 			save.onclick = this.onSave;
 			save.innerHTML = "save";
-			form.appendChild(save);
+			rowDiv.appendChild(save);
 
 			let remove = document.createElement("button");
 			this.buttonAttrib(remove, fid);
@@ -117,7 +132,8 @@ class Form {
 
 			remove.onclick = this.removeTempRow;
 			remove.innerHTML = "Remove";
-			form.appendChild(remove);
+			rowDiv.appendChild(remove);
+      form.appendChild(rowDiv)
 		}
 	}
 	displayForm(dataArray) {
@@ -128,14 +144,26 @@ class Form {
 			let type = dataArray[i].type;
 			let value = dataArray[i].value;
 
+      let rowDiv = document.createElement('div');
+      // rowDiv.className = id;
+      rowDiv.setAttribute("id", id)
+
+      let checkbox = document.createElement("INPUT");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.setAttribute("id", id)
+      checkbox.setAttribute("class", "formFields");
+      checkbox.classList.add("checkbox");
+      rowDiv.appendChild(checkbox);
+
 			let h3 = document.createElement("h3");
 			let textNode = document.createTextNode(id);
 			h3.appendChild(textNode);
-			form.appendChild(h3);
+      h3.setAttribute("class", id)
+			rowDiv.appendChild(h3);
 
 			let input = document.createElement("input");
 			this.attrib(input, id, type, value);
-			form.appendChild(input);
+			rowDiv.appendChild(input);
 
 			let save = document.createElement("button");
 			this.attrib(save, id, type, value);
@@ -143,7 +171,7 @@ class Form {
 
 			save.onclick = this.onSave;
 			save.innerHTML = "save";
-			form.appendChild(save);
+			rowDiv.appendChild(save);
 
 			let remove = document.createElement("button");
 			this.buttonAttrib(remove, id);
@@ -153,10 +181,28 @@ class Form {
 
 			remove.onclick = this.onRemove;
 			remove.innerHTML = "Remove";
-			form.appendChild(remove);
+			rowDiv.appendChild(remove);
+      form.appendChild(rowDiv)
+      document.querySelector(`.${id}`).style.backgroundColor = "#C9E4C5"
 		}
 	}
 	clearForm() {
 		document.getElementById("idInput").value = "";
 	}
+  makeRowGreenColor(id){
+    document.querySelector(`.${id}`).style.backgroundColor = "#C9E4C5"
+  }
+  activeCheckboxRow(id){
+    let div = document.querySelectorAll('input[type=checkbox]')
+    for(let i in div){
+      if(div[i].id == id){
+        div[i].style.visibility = "visible"
+      }
+    }
+    // document.getElementById(`.${id}`).visibility = "visible"
+  }
 }
+
+
+
+// document.querySelector(".sfsf").style.backgroundColor = "#C9E4C5"

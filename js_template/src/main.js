@@ -10,6 +10,7 @@ function pageRefresh() {
 	FM.refreshPage();
 	FM.clearForm();
 }
+
 function createMainInstance(fid, type) {
 	let SM = new Storage();
 	let dataArray = SM.dataRetrieve();
@@ -62,5 +63,11 @@ class Main {
 			SM.checkIfDeleted(targetId)
 			this.removeTempRowLoop(targets);
 		};
+    this.FM.makeRowGreen = function (id){
+      this.makeRowGreenColor(id)
+    }
+    this.FM.activeCheckbox = function (id){
+      this.activeCheckboxRow(id)
+    }
 	}
 }
