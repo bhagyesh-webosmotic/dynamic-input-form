@@ -16,7 +16,7 @@
         <div id="staticForm">
           <h2>Dynamically adding element inside the form.</h2>
           <br />
-          <input type="text" name="idName" class="formFieldsStatic" id="idInput" />
+          <input type="text" name="idName" class="formFieldsStatic" id="idInput" placeholder="Enter ID" />
           <select name="element" class="formFieldsStatic">
             <option value="text">Text</option>
             <option value="date">Date</option>
@@ -27,12 +27,12 @@
             <option value="email">E-mail</option>
             <option value="submit">Submit</option>
           </select>
-          <input type="button" class="btn" value="Add"
+          <input type="button" class="btnStatic" value="Add"
             onclick="createMainInstance(document.forms[0][0].value, document.forms[0].element.value)" />
-          <button type="button" id="Refresh" class="btn" onclick="pageRefresh()">Refresh</button>
+          <button type="button" id="Refresh" class="btnStatic" onclick="pageRefresh()">Refresh</button>
           <br>
         </div>
-        <div id="dynamicForm">
+        <div id="dynamicForm" class="dynamicForm">
         </div>
       </form>
     </div>

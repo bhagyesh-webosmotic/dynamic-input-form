@@ -1,27 +1,39 @@
 window.onload = function () {
 	let SM = new Storage();
 	let dataArray = SM.dataRetrieve();
-
 	let FM = new Form();
 	FM.displayForm(dataArray);
-
 	const form = new Main();
 };
 function pageRefresh() {
 	let FM = new Form();
 	FM.refreshPage();
+	FM.clearForm();
 }
 function createMainInstance(fid, type) {
+	let SM = new Storage();
+	let dataArray = SM.dataRetrieve();
+	let inputDOMRow = document.querySelectorAll(`input[name="${fid}"]`);
+	for (let i of dataArray) {
+		if (i.id == fid || inputDOMRow.length > 0 || fid.length < 3) {
+			alert("please enter unique id and at least 3 digits long");
+			return;
+		}
+	}
 	let sid = uuidv4();
 	const form = new Main(fid, sid, type);
-	// clearForm();
+	let FM = new Form();
+	FM.clearForm();
 }
 class Main {
 	constructor(fid, sid, type) {
 		this.fid = fid;
 		this.sid = sid;
 		this.type = type;
+		// this.SM = new Storage(this.sid);
+		// this.dataArray = this.SM.dataRetrieve();
 		this.FM = new Form(this.fid);
+		// this.FM.displayForm(this.dataArray);
 		this.FM.createForm(this.fid, this.type); // (creates input field in DOM)
 		this.FM.onSave = function (e) {
 			let id = e.target.name;

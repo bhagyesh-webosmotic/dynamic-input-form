@@ -24,74 +24,92 @@ class Form {
 			this.removeTempRowLoop(targets);
 		}
 	}
-	attrib(input, element) {
-		if (!element.value) {
-			// console.log("inside dom");
-			switch (element.type) {
+	attrib(input, id, type, value) {
+		if (!value) {
+			// inside dom
+			switch (type) {
 				case "range":
 					input.setAttribute("min", 0);
 					input.setAttribute("max", 10);
 					break;
 			}
-			input.setAttribute("type", element.type);
-			input.setAttribute("name", element.id);
-			input.setAttribute("value", element.id);
-			input.setAttribute("id", element.id);
-			if (element.type == "color") {
+			input.setAttribute("type", type);
+			input.setAttribute("name", id);
+			input.setAttribute("value", id);
+			input.setAttribute("id", id);
+			if (type == "color") {
 				input.setAttribute("class", "colorPicker");
+			} else if (type == "range") {
+				input.setAttribute("class", "rangePicker");
 			} else {
 				input.setAttribute("class", "formFields");
 			}
 		} else {
-			// console.log("inside saved data");
-			switch (element.type) {
+			// inside saved data
+			switch (type) {
 				case "range":
 					input.setAttribute("min", 0);
 					input.setAttribute("max", 10);
 					break;
 			}
-			input.setAttribute("type", element.type);
-			input.setAttribute("value", element.value);
-			input.setAttribute("id", element.id);
-			if (element.type == "color") {
+			input.setAttribute("type", type);
+			input.setAttribute("value", value);
+			input.setAttribute("id", id);
+			if (type == "color") {
 				input.setAttribute("class", "colorPicker");
+			} else if (type == "range") {
+				input.setAttribute("class", "rangePicker");
+				input.classList.add("formFields");
 			} else {
 				input.setAttribute("class", "formFields");
 			}
 		}
 	}
 
+	buttonAttrib(input, id, type) {
+		if (!type) {
+			//remove button
+			input.setAttribute("type", "button");
+			input.setAttribute("name", id);
+			input.setAttribute("class", "btn");
+		} else {
+			//save button
+			input.setAttribute("type", "button");
+			input.setAttribute("name", id);
+			input.setAttribute("class", "btn");
+			input.setAttribute("input-type", type);
+		}
+	}
+
 	createForm(fid, type) {
 		if (fid) {
 			let form = document.getElementById("dynamicForm");
+
 			let h3 = document.createElement("h3");
-			h3.setAttribute("name", fid);
 			let textNode = document.createTextNode(fid);
 			h3.appendChild(textNode);
+			h3.setAttribute("name", fid);
 			form.appendChild(h3);
+
 			let input = document.createElement("input");
-			let element = {
-				id: fid,
-				type: type,
-			};
-			this.attrib(input, element);
+			this.attrib(input, fid, type);
 			form.appendChild(input);
+
 			let save = document.createElement("button");
-			save.setAttribute("type", "button");
-			save.setAttribute("name", fid);
-			save.setAttribute("input-type", type);
-			save.setAttribute("class", "btn");
-			// save.setAttribute("onclick", "onAdd(event)");
+			this.buttonAttrib(save, fid, type);
+
 			save.onclick = this.onSave;
 			save.innerHTML = "save";
 			form.appendChild(save);
 
 			let remove = document.createElement("button");
-			remove.setAttribute("type", "button");
-			remove.setAttribute("name", fid);
+			this.buttonAttrib(remove, fid);
+			// remove.setAttribute("type", "button");
+			// remove.setAttribute("name", fid);
+			// remove.setAttribute("class", "btn");
+
 			remove.setAttribute("id", fid);
-			remove.setAttribute("class", "btn");
-			// remove.setAttribute("onclick", "removeTempRow(event)");
+
 			remove.onclick = this.removeTempRow;
 			remove.innerHTML = "Remove";
 			form.appendChild(remove);
@@ -101,28 +119,33 @@ class Form {
 		let form = document.getElementById("dynamicForm");
 		form.innerHTML = "";
 		for (let i in dataArray) {
+			let id = dataArray[i].id;
+			let type = dataArray[i].type;
+			let value = dataArray[i].value;
+
 			let h3 = document.createElement("h3");
-			let textNode = document.createTextNode(dataArray[i].id);
+			let textNode = document.createTextNode(id);
 			h3.appendChild(textNode);
 			form.appendChild(h3);
+
 			let input = document.createElement("input");
-			this.attrib(input, dataArray[i]);
+			this.attrib(input, id, type, value);
 			form.appendChild(input);
+
 			let save = document.createElement("button");
-			this.attrib(save, dataArray[i]);
-			save.setAttribute("type", "button");
-			save.setAttribute("name", dataArray[i].id);
-			save.setAttribute("input-type", dataArray[i].type);
-			save.setAttribute("class", "btn");
-			// save.setAttribute("onclick", "onAdd(event)");
+			this.attrib(save, id, type, value);
+			this.buttonAttrib(save, id, type);
+
 			save.onclick = this.onSave;
 			save.innerHTML = "save";
 			form.appendChild(save);
+
 			let remove = document.createElement("button");
-			save.setAttribute("type", "button");
+			this.buttonAttrib(remove, id);
+			// remove.setAttribute("type", "button");
 			remove.setAttribute("name", i);
-			remove.setAttribute("class", "btn");
-			// remove.setAttribute("onclick", "onRemove(event);");
+			// remove.setAttribute("class", "btn");
+
 			remove.onclick = this.onRemove;
 			remove.innerHTML = "Remove";
 			form.appendChild(remove);

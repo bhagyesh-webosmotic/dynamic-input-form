@@ -66,22 +66,51 @@ body {
 	border: 1px solid black;
 	margin-right: 5px;
 }
-.formFields {
-	padding-top: 10px;
-	padding-bottom: 10px;
-	background-color: #fff;
-	border-style: 1px;
+.btnStatic {
+	padding: 10px 22px;
 	border-radius: 5px;
-	width: 30%;
-	margin: 0 5px;
+	background-color: #0091e0;
+	color: #fff;
+	border: 1px solid black;
 }
-.formFieldsStatic {
+.formFields {
+	height: 35px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background-color: #fff;
-	border-style: 1px;
+	border: 1px solid;
 	border-radius: 5px;
 	width: 30%;
+	margin: 3px 5px;
+	padding-left: 10px;
+}
+
+/* .formFields { */
+/* padding-top: 7px; */
+/* padding-bottom: 11px; */
+/* padding: 10px 5px;
+    background-color: #fff;
+    border: 1px solid;
+    border-radius: 5px;
+    width: 30%;
+    margin: 3px 5px; */
+/* margin-bottom: 10px; */
+/* } */
+
+.dynamicForm {
+	margin-top: 2px;
+}
+
+.formFieldsStatic {
+	height: 35px;
+	padding-top: 8px;
+	padding-bottom: 10px;
+	background-color: #fff;
+	border: 1px solid;
+	border-radius: 5px;
+	width: 30%;
+	margin-left: 1px;
+	padding-left: 5px;
 }
 h3 {
 	display: inline-block;
@@ -98,6 +127,10 @@ h3 {
 	margin-right: 3px;
 	border: none;
 }
+.rangePicker {
+	height: 10px;
+}
+
 @media screen and (max-width: 850px) {
 	.container {
 		width: 100%;
@@ -110,12 +143,20 @@ h3 {
 @media screen and (max-width: 515px) {
 	.formFieldsStatic {
 		width: 49%;
+		margin-bottom: 5px;
 	}
 	.formFields {
 		width: 45%;
+		margin-bottom: 5px;
+		float: right;
 	}
 	.btn {
 		width: 100%;
+		margin-bottom: 5px;
+	}
+	.btnStatic {
+		width: 100%;
+		margin-bottom: 5px;
 	}
 	h3 {
 		width: 50%;
