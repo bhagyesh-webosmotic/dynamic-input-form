@@ -46,4 +46,13 @@ class Storage {
 			return dataArray;
 		}
 	}
+  checkIfDeleted(targetId){
+    let dataArray = [];
+			dataArray = JSON.parse(localStorage["input"]);
+    for(let i in dataArray){
+      if(dataArray[i].id == targetId){
+        this.removeRow(targetId)
+      }
+    }
+  }
 }

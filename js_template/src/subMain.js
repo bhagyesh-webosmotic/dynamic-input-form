@@ -3,20 +3,28 @@ class Form {
 		this.fid = fid;
 	}
 	onSave(e) {
+    let id = e.target.name;
+		let type = e.target.getAttribute("input-type");
+		let value = document.getElementById(e.target.name).value;
 		let form = new Main();
-		form.FM.onSave(e);
+		form.FM.onSave(id, type, value);
 	}
 	onRemove(e) {
+    let removeRowId = e.target.getAttribute("name");
 		let form = new Main();
-		form.FM.onRemove(e);
+		form.FM.onRemove(removeRowId);
 	}
 	refreshPage() {
+    console.log("refresh triggered");
+		document.getElementById("dynamicForm").innerHTML = "";
 		let form = new Main();
 		form.FM.refreshPage();
 	}
 	removeTempRow(e) {
+    let targetId = e.target.id;
+		let targets = document.getElementsByName(targetId);
 		let form = new Main();
-		form.FM.removeTempRow(e);
+		form.FM.removeTempRow(targets, targetId);
 	}
 	removeTempRowLoop(targets) {
 		for (let i of targets) {
@@ -41,6 +49,7 @@ class Form {
 				input.setAttribute("class", "colorPicker");
 			} else if (type == "range") {
 				input.setAttribute("class", "rangePicker");
+        input.classList.add("formFields");
 			} else {
 				input.setAttribute("class", "formFields");
 			}
