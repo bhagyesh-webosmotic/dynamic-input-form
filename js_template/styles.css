@@ -96,8 +96,12 @@ body {
     margin: 3px 5px; */
 /* margin-bottom: 10px; */
 /* } */
-
+.staticForm {
+	margin-right: 3px;
+	text-align: center;
+}
 .dynamicForm {
+	text-align: center;
 	margin-top: 2px;
 }
 
@@ -113,6 +117,7 @@ body {
 	padding-left: 5px;
 }
 h3 {
+	text-align: left;
 	display: inline-block;
 	padding-top: 10px;
 	padding-bottom: 10px;
