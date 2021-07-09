@@ -11,27 +11,30 @@ function pageRefresh() {
 	FM.clearForm();
 }
 
+
+
 function createMainInstance(fid, type) {
-	let SM = new Storage();
+		let SM = new Storage();
 	let dataArray = SM.dataRetrieve();
 	let inputDOMRow = document.querySelectorAll(`input[name="${fid}"]`);
-  if(dataArray.length == 0 ) {
-    if(inputDOMRow.length > 0 || fid.length < 3){
-      alert("please enter unique id and at least 3 digits long");
-		return;
-  }
-  }else{
-	for (let i of dataArray) {
-		if (i.id == fid || inputDOMRow.length > 0 || fid.length < 3) {
+
+  if (!dataArray.length) {
+		if (inputDOMRow.length > 0 || fid.length < 3) {
 			alert("please enter unique id and at least 3 digits long");
-			return;
+			return false;
+		}
+	} else {
+		for (let i of dataArray) {
+			if (i.id == fid || inputDOMRow.length > 0 || fid.length < 3) {
+				alert("please enter unique id and at least 3 digits long");
+				return false;
+			}
 		}
 	}
-}
-	let sid = uuidv4();
-	const form = new Main(fid, sid, type);
-	let FM = new Form();
-	FM.clearForm();
+		let sid = uuidv4();
+		const form = new Main(fid, sid, type);
+		let FM = new Form();
+		FM.clearForm();
 }
 class Main {
 	constructor(fid, sid, type) {
@@ -58,16 +61,49 @@ class Main {
 			let dataArray = SM.dataRetrieve();
 			FM.displayForm(dataArray);
 		};
-		this.FM.removeTempRow = function (targets, targetId) {
-      let SM = new Storage();
-			SM.checkIfDeleted(targetId)
-			this.removeTempRowLoop(targets);
+		this.FM.removeTempRow = function (targetId) {
+			// console.log("inside main class removeTempRow");
+			let SM = new Storage();
+			SM.checkIfDeletedWasSaved(targetId);
+			// this.removeTempRowLoop(targets);
 		};
-    this.FM.makeRowGreen = function (id){
-      this.makeRowGreenColor(id)
-    }
-    this.FM.activeCheckbox = function (id){
-      this.activeCheckboxRow(id)
-    }
+		this.FM.makeRowGreen = function (id) {
+			this.makeRowGreenColor(id);
+		};
+		this.FM.activeCheckbox = function (id) {
+			this.activeCheckboxRow(id);
+		};
+		this.FM.deactiveDeleteButton = function () {
+			this.deactiveDeleteButtonAfterDelete();
+		};
 	}
+}
+let array = [];
+function storeid(id) {
+	// console.log(`received id for array:${id}`);
+	let matched = false;
+	for (let i in array) {
+		if (array[i] == id) {
+			let index = array.indexOf(id);
+			array.splice(index, 1);
+			matched = true;
+		}
+	}
+	if (!matched) {
+		array.push(id);
+	}
+	if (array.length) {
+		let FM = new Form();
+		FM.activeDeleteButton();
+	} else {
+		let FM = new Form();
+		FM.deactiveDeleteButtonAfterDelete();
+	}
+}
+
+function multiRowDelete() {
+	let SM = new Storage();
+	SM.deleteSelectedRows(array);
+	let Fm = new Form();
+	Fm.deleteTempRowByCheckbox(array);
 }

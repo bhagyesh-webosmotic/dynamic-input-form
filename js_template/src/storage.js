@@ -27,19 +27,31 @@ class Storage {
 			});
 			dataArray.push(obj);
 			localStorage["input"] = JSON.stringify(dataArray);
-      let form = new Main()
-      form.FM.makeRowGreen(id)
-      form.FM.activeCheckbox(id)
-
+			let form = new Main();
+			form.FM.makeRowGreen(id);
+			// form.FM.activeCheckbox(id)
 		}
 	}
 	removeRow(removeRowId) {
 		let dataArray = [];
 		dataArray = JSON.parse(localStorage["input"]);
-		dataArray.splice(removeRowId, 1);
-		localStorage["input"] = JSON.stringify(dataArray);
+		const newArr = dataArray.filter((val) => {
+			return val.id !== removeRowId;
+		});
+		localStorage["input"] = JSON.stringify(newArr);
+
+		// for(let i in dataArray){
+		//   if(dataArray[i].id == removeRowId){
+
+		//     let index = dataArray.indexOf(removeRowId)
+		//     dataArray.splice(index, 1)
+		//   }
+		// }
+		// 	localStorage["input"] = JSON.stringify(dataArray);
+
 		let form = new Form();
 		form.refreshPage();
+		form.deactiveDeleteButtonAfterDelete();
 	}
 	dataRetrieve() {
 		if (localStorage["input"] === undefined) {
@@ -50,13 +62,33 @@ class Storage {
 			return dataArray;
 		}
 	}
-  checkIfDeleted(targetId){
-    let dataArray = [];
-			dataArray = JSON.parse(localStorage["input"]);
-    for(let i in dataArray){
-      if(dataArray[i].id == targetId){
-        this.removeRow(targetId)
-      }
-    }
-  }
+	checkIfDeletedWasSaved(targetId) {
+		let dataArray = [];
+		dataArray = JSON.parse(localStorage["input"]);
+		// console.log(`target id of temp Row:${targetId}`);
+		for (let i in dataArray) {
+			if (dataArray[i].id == targetId) {
+				// console.log("matched temp row for saved data");
+				this.removeRow(targetId);
+			}
+		}
+	}
+
+	deleteSelectedRows(selectedRowIds) {
+		let dataArray = [];
+		dataArray = JSON.parse(localStorage["input"]);
+
+		for (let i in selectedRowIds) {
+			for (let j in dataArray) {
+				if (dataArray[j].id == selectedRowIds[i]) {
+					let index = dataArray.indexOf(dataArray[j]);
+					dataArray.splice(index, 1);
+				}
+			}
+		}
+		localStorage["input"] = JSON.stringify(dataArray);
+		let form = new Form();
+		form.refreshPage();
+		form.deactiveDeleteButtonAfterDelete();
+	}
 }

@@ -3,35 +3,80 @@ class Form {
 		this.fid = fid;
 	}
 	onSave(e) {
-    let id = e.target.name;
+		let id = e.target.name;
 		let type = e.target.getAttribute("input-type");
 		let value = document.getElementById(e.target.name).value;
 		let form = new Main();
 		form.FM.onSave(id, type, value);
 	}
 	onRemove(e) {
-    let removeRowId = e.target.getAttribute("name");
+		let removeRowId = e.target.getAttribute("name");
+		console.log(`inside remove:${removeRowId}`);
 		let form = new Main();
 		form.FM.onRemove(removeRowId);
 	}
 	refreshPage() {
-    console.log("refresh triggered");
+		console.log("refresh triggered");
 		document.getElementById("dynamicForm").innerHTML = "";
 		let form = new Main();
 		form.FM.refreshPage();
 	}
 	removeTempRow(e) {
-    let targetId = e.target.id;
+		let targetId = e.target.id;
 		let targets = document.getElementsByName(targetId);
 		let form = new Main();
-		form.FM.removeTempRow(targets, targetId);
+		document.getElementById(targetId).remove();
+		form.FM.removeTempRow(targetId);
 	}
-	removeTempRowLoop(targets) {
-		for (let i of targets) {
-			i.remove();
-			this.removeTempRowLoop(targets);
+	clearForm() {
+		document.getElementById("idInput").value = "";
+	}
+	makeRowGreenColor(id) {
+		document.querySelector(`.${id}`).style.backgroundColor = "#C9E4C5";
+	}
+	// activeCheckboxRow(id){
+	//   let div = document.querySelectorAll('input[type=checkbox]')
+	//   for(let i in div){
+	//     if(div[i].name == id){
+	//       div[i].style.visibility = "visible"
+	//     }
+	//   }
+	//   // document.getElementById(`.${id}`).visibility = "visible"
+	// }
+	activeDeleteButton() {
+		document.getElementById("delete").style.visibility = "visible";
+	}
+	deactiveDeleteButtonAfterDelete() {
+		document.getElementById("delete").style.visibility = "hidden";
+	}
+
+	selectedTempRowForDeletion(e) {
+		let targetId = e.target.name;
+		let selectedRowByName = document.getElementsByName(targetId).checked;
+		if (!selectedRowByName) {
+			storeid(targetId);
+		}
+		// document.getElementById(targetId).remove()
+	}
+	selectedRowForDeletion(e) {
+		let targetId = e.target.id;
+		let selectedRow = document.getElementById(targetId).checked;
+		if (!selectedRow) {
+			storeid(targetId);
 		}
 	}
+	deleteTempRowByCheckbox(array) {
+		for (let i in array) {
+			// element.parentNode.removeChild(element)
+			// array[i].remove()
+			console.log(array[i]);
+		}
+	}
+	// storeSelectedRowIdForDeletion(id){
+	//   this.array.push(id)
+	//   console.log(this.array);
+	// }
+
 	attrib(input, id, type, value) {
 		if (!value) {
 			// inside dom
@@ -49,7 +94,7 @@ class Form {
 				input.setAttribute("class", "colorPicker");
 			} else if (type == "range") {
 				input.setAttribute("class", "rangePicker");
-        input.classList.add("formFields");
+				input.classList.add("formFields");
 			} else {
 				input.setAttribute("class", "formFields");
 			}
@@ -92,27 +137,25 @@ class Form {
 
 	createForm(fid, type) {
 		if (fid) {
-      let rowDiv = document.createElement('div');
-      // rowDiv.className = fid;
-      rowDiv.setAttribute("id", fid)
+			let rowDiv = document.createElement("div");
+			// rowDiv.className = fid;
+			rowDiv.setAttribute("row", fid);
 
 			let form = document.getElementById("dynamicForm");
 
-
-      let checkbox = document.createElement("INPUT");
-      checkbox.setAttribute("type", "checkbox");
-      checkbox.setAttribute("id", fid)
-      checkbox.setAttribute("class", "formFields");
-      checkbox.classList.add("checkbox");
-      checkbox.style.visibility = "hidden"
-      rowDiv.appendChild(checkbox);
-
+			let checkbox = document.createElement("INPUT");
+			checkbox.setAttribute("type", "checkbox");
+			checkbox.setAttribute("name", fid);
+			checkbox.setAttribute("class", "formFields");
+			checkbox.classList.add("checkbox");
+			checkbox.onclick = this.selectedTempRowForDeletion;
+			rowDiv.appendChild(checkbox);
 
 			let h3 = document.createElement("h3");
 			let textNode = document.createTextNode(fid);
 			h3.appendChild(textNode);
 			h3.setAttribute("name", fid);
-      h3.setAttribute("class", fid)
+			h3.setAttribute("class", fid);
 			rowDiv.appendChild(h3);
 
 			let input = document.createElement("input");
@@ -133,7 +176,7 @@ class Form {
 			remove.onclick = this.removeTempRow;
 			remove.innerHTML = "Remove";
 			rowDiv.appendChild(remove);
-      form.appendChild(rowDiv)
+			form.appendChild(rowDiv);
 		}
 	}
 	displayForm(dataArray) {
@@ -144,21 +187,22 @@ class Form {
 			let type = dataArray[i].type;
 			let value = dataArray[i].value;
 
-      let rowDiv = document.createElement('div');
-      // rowDiv.className = id;
-      rowDiv.setAttribute("id", id)
+			let rowDiv = document.createElement("div");
+			// rowDiv.className = id;
+			rowDiv.setAttribute("id", id);
 
-      let checkbox = document.createElement("INPUT");
-      checkbox.setAttribute("type", "checkbox");
-      checkbox.setAttribute("id", id)
-      checkbox.setAttribute("class", "formFields");
-      checkbox.classList.add("checkbox");
-      rowDiv.appendChild(checkbox);
+			let checkbox = document.createElement("INPUT");
+			checkbox.setAttribute("type", "checkbox");
+			checkbox.setAttribute("id", id);
+			checkbox.setAttribute("class", "formFields");
+			checkbox.classList.add("checkbox");
+			checkbox.onclick = this.selectedRowForDeletion;
+			rowDiv.appendChild(checkbox);
 
 			let h3 = document.createElement("h3");
 			let textNode = document.createTextNode(id);
 			h3.appendChild(textNode);
-      h3.setAttribute("class", id)
+			h3.setAttribute("class", id);
 			rowDiv.appendChild(h3);
 
 			let input = document.createElement("input");
@@ -176,33 +220,16 @@ class Form {
 			let remove = document.createElement("button");
 			this.buttonAttrib(remove, id);
 			// remove.setAttribute("type", "button");
-			remove.setAttribute("name", i);
+			remove.setAttribute("name", id);
 			// remove.setAttribute("class", "btn");
 
 			remove.onclick = this.onRemove;
 			remove.innerHTML = "Remove";
 			rowDiv.appendChild(remove);
-      form.appendChild(rowDiv)
-      document.querySelector(`.${id}`).style.backgroundColor = "#C9E4C5"
+			form.appendChild(rowDiv);
+			document.querySelector(`.${id}`).style.backgroundColor = "#C9E4C5";
 		}
 	}
-	clearForm() {
-		document.getElementById("idInput").value = "";
-	}
-  makeRowGreenColor(id){
-    document.querySelector(`.${id}`).style.backgroundColor = "#C9E4C5"
-  }
-  activeCheckboxRow(id){
-    let div = document.querySelectorAll('input[type=checkbox]')
-    for(let i in div){
-      if(div[i].id == id){
-        div[i].style.visibility = "visible"
-      }
-    }
-    // document.getElementById(`.${id}`).visibility = "visible"
-  }
 }
-
-
 
 // document.querySelector(".sfsf").style.backgroundColor = "#C9E4C5"
