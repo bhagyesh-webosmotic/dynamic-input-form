@@ -1,15 +1,15 @@
 window.onload = function () {
-  let SM = new Storage();
-  let dataArray = SM.dataRetrieve();
-  let FM = new Form();
+  const SM = new Storage();
+  const dataArray = SM.dataRetrieve();
+  const FM = new Form();
   FM.staticFormGenerate();
   FM.displayForm(dataArray);
 
   const form = new Main();
 };
 
-let array = [];
-function storeid(id) {
+const array = [];
+function storeId(id) {
   // console.log(`received id for array:${id}`);
   let matched = false;
   for (let i in array) {
@@ -23,38 +23,38 @@ function storeid(id) {
     array.push(id);
   }
   if (array.length) {
-    let FM = new Form();
+    const FM = new Form();
     FM.activeDeleteButton();
   } else {
-    let FM = new Form();
-    FM.deactiveDeleteButtonAfterDelete();
+    const FM = new Form();
+    FM.disableDeleteButtonAfterDelete();
   }
 }
 
 function checkAllcheckBoxesFunction() {
-  let FM = new Form();
+  const FM = new Form();
   FM.checkAllcheckBoxes();
   FM.activeDeleteButton();
 }
 
 function multiRowDelete() {
   console.log(array);
-  let SM = new Storage();
+  const SM = new Storage();
   SM.deleteSelectedRows(array);
-  let Fm = new Form();
+  const Fm = new Form();
   Fm.deleteTempRowByCheckbox(array);
 }
 
 function pageRefresh() {
-  let FM = new Form();
+  const FM = new Form();
   FM.refreshPage();
   FM.clearForm();
 }
 
 function createMainInstance(fid, type) {
-  let SM = new Storage();
-  let dataArray = SM.dataRetrieve();
-  let inputDOMRow = document.querySelectorAll(`input[name="${fid}"]`);
+  const SM = new Storage();
+  const dataArray = SM.dataRetrieve();
+  const inputDOMRow = document.querySelectorAll(`input[name="${fid}"]`);
 
   if (!dataArray.length) {
     if (inputDOMRow.length > 0 || fid.length < 3) {
@@ -69,9 +69,9 @@ function createMainInstance(fid, type) {
       }
     }
   }
-  let sid = uuidv4();
+  const sid = uuidv4();
   const form = new Main(fid, sid, type);
-  let FM = new Form();
+  const FM = new Form();
   FM.clearForm();
 }
 class Main {
@@ -90,18 +90,18 @@ class Main {
       this.clearForm();
     };
     this.FM.onRemove = function (removeRowId) {
-      let SM = new Storage();
+      const SM = new Storage();
       SM.removeRow(removeRowId);
     };
     this.FM.refreshPage = function () {
-      let FM = new Form();
-      let SM = new Storage();
-      let dataArray = SM.dataRetrieve();
+      const FM = new Form();
+      const SM = new Storage();
+      const dataArray = SM.dataRetrieve();
       FM.displayForm(dataArray);
     };
     this.FM.removeTempRow = function (targetId) {
       // console.log("inside main class removeTempRow");
-      let SM = new Storage();
+      const SM = new Storage();
       SM.checkIfDeletedWasSaved(targetId);
       // this.removeTempRowLoop(targets);
     };
@@ -111,14 +111,14 @@ class Main {
     this.FM.activeCheckbox = function (id) {
       this.activeCheckboxRow(id);
     };
-    this.FM.deactiveDeleteButton = function () {
-      this.deactiveDeleteButtonAfterDelete();
+    this.FM.disableDeleteButton = function () {
+      this.disableDeleteButtonAfterDelete();
     };
     this.FM.activeMultiDeleteCheckBox = function () {
       this.activeMultiDeleteCheckBoxTop();
     };
-    this.FM.deactiveMultiDeleteCheckBox = function () {
-      this.deactiveMultiDeleteCheckBoxAfterDelete();
+    this.FM.disableMultiDeleteCheckBox = function () {
+      this.disableMultiDeleteCheckBoxAfterDelete();
     };
   }
 }

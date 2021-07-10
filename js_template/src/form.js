@@ -3,29 +3,31 @@ class Form {
     this.fid = fid;
   }
   onSave(e) {
-    let id = e.target.name;
-    let type = e.target.getAttribute('input-type');
-    let value = document.getElementById(e.target.name).value;
-    let form = new Main();
+    const id = e.target.name;
+    const type = e.target.getAttribute('input-type');
+    const value = document.getElementById(e.target.name).value;
+    const form = new Main();
     form.FM.onSave(id, type, value);
     form.FM.activeMultiDeleteCheckBox();
   }
   onRemove(e) {
-    let removeRowId = e.target.getAttribute('name');
+    const removeRowId = e.target.getAttribute('name');
     console.log(`inside remove:${removeRowId}`);
-    let form = new Main();
+    const form = new Main();
     form.FM.onRemove(removeRowId);
   }
   refreshPage() {
     console.log('refresh triggered');
     document.getElementById('dynamicForm').innerHTML = '';
-    let form = new Main();
+    const form = new Main();
     form.FM.refreshPage();
+    const refreshMultiDeleteCheckbox = document.getElementById('multiDeleteCheckbox');
+    refreshMultiDeleteCheckbox.checked = false;
   }
   removeTempRow(e) {
-    let targetId = e.target.id;
-    let targets = document.getElementsByName(targetId);
-    let form = new Main();
+    const targetId = e.target.id;
+    const targets = document.getElementsByName(targetId);
+    const form = new Main();
 
     if (document.querySelector(`[row="${targetId}"]`)) {
       document.querySelector(`[row="${targetId}"]`).remove();
@@ -53,30 +55,30 @@ class Form {
   activeDeleteButton() {
     document.getElementById('delete').style.visibility = 'visible';
   }
-  deactiveDeleteButtonAfterDelete() {
+  disableDeleteButtonAfterDelete() {
     document.getElementById('delete').style.visibility = 'hidden';
   }
 
   activeMultiDeleteCheckBoxTop() {
     document.getElementById('multiDeleteCheckbox').style.visibility = 'visible';
   }
-  deactiveMultiDeleteCheckBoxAfterDelete() {
+  disableMultiDeleteCheckBoxAfterDelete() {
     document.getElementById('multiDeleteCheckbox').style.visibility = 'hidden';
   }
 
   selectedTempRowForDeletion(e) {
-    let targetId = e.target.name;
-    let selectedRowByName = document.getElementsByName(targetId).checked;
+    const targetId = e.target.name;
+    const selectedRowByName = document.getElementsByName(targetId).checked;
     if (!selectedRowByName) {
-      storeid(targetId);
+      storeId(targetId);
     }
     // document.getElementById(targetId).remove()
   }
   selectedRowForDeletion(e) {
-    let targetId = e.target.id;
-    let selectedRow = document.getElementById(targetId).checked;
+    const targetId = e.target.id;
+    const selectedRow = document.getElementById(targetId).checked;
     if (!selectedRow) {
-      storeid(targetId);
+      storeId(targetId);
     }
   }
   deleteTempRowByCheckbox(array) {
@@ -97,20 +99,21 @@ class Form {
       if (allInputs[i].type === 'checkbox') {
         allInputs[i].checked = true;
         if (allInputs[i].id) {
-          storeid(allInputs[i].id);
+          storeId(allInputs[i].id);
         } else {
           console.log('temp row detected');
-          storeid(allInputs[i].name);
+          console.log(allInputs[i].name);
+          storeId(allInputs[i].name);
         }
-        console.log(allInputs[i].name);
+        console.log(allInputs[i]);
       }
     }
   }
 
   staticFormGenerate() {
-    let staticForm = document.getElementById('staticForm');
+    const staticForm = document.getElementById('staticForm');
     //
-    let multiDeleteCheckbox = document.createElement('input');
+    const multiDeleteCheckbox = document.createElement('input');
     multiDeleteCheckbox.type = 'checkbox';
     multiDeleteCheckbox.id = 'multiDeleteCheckbox';
     multiDeleteCheckbox.name = 'multiDeleteCheckbox';
@@ -119,7 +122,7 @@ class Form {
     multiDeleteCheckbox.setAttribute('onclick', 'checkAllcheckBoxesFunction()');
     staticForm.appendChild(multiDeleteCheckbox);
     //
-    let idInput = document.createElement('input');
+    const idInput = document.createElement('input');
     idInput.setAttribute('type', 'text');
     idInput.name = 'idName';
     idInput.className = 'formFieldsStatic';
@@ -127,13 +130,13 @@ class Form {
     idInput.placeholder = 'Enter ID';
     staticForm.appendChild(idInput);
     //
-    let selectOption = document.createElement('select');
+    const selectOption = document.createElement('select');
     selectOption.name = 'element';
     selectOption.className = 'formFieldsStatic';
     selectOption.id = 'element';
     staticForm.appendChild(selectOption);
-    let optionList = document.getElementById('element').options;
-    let options = [
+    const optionList = document.getElementById('element').options;
+    const options = [
       {
         text: 'Text',
         value: 'text',
@@ -170,7 +173,7 @@ class Form {
     ];
     options.forEach((option) => optionList.add(new Option(option.text, option.value, option.selected)));
     //
-    let addButton = document.createElement('input');
+    const addButton = document.createElement('input');
     addButton.setAttribute('type', 'button');
     addButton.className = 'btnStatic';
     addButton.value = 'Add';
@@ -180,7 +183,7 @@ class Form {
     );
     staticForm.appendChild(addButton);
     //
-    let refreshButton = document.createElement('input');
+    const refreshButton = document.createElement('input');
     refreshButton.setAttribute('type', 'button');
     refreshButton.id = 'Refresh';
     refreshButton.className = 'btnStatic';
@@ -188,7 +191,7 @@ class Form {
     refreshButton.setAttribute('onclick', 'pageRefresh()');
     staticForm.appendChild(refreshButton);
     //
-    let deleteButton = document.createElement('input');
+    const deleteButton = document.createElement('input');
     deleteButton.setAttribute('type', 'button');
     deleteButton.id = 'delete';
     deleteButton.className = 'btnStatic';
@@ -257,13 +260,13 @@ class Form {
 
   createForm(fid, type) {
     if (fid) {
-      let rowDiv = document.createElement('div');
+      const rowDiv = document.createElement('div');
       // rowDiv.className = fid;
       rowDiv.setAttribute('row', fid);
 
-      let form = document.getElementById('dynamicForm');
+      const form = document.getElementById('dynamicForm');
 
-      let checkbox = document.createElement('INPUT');
+      const checkbox = document.createElement('INPUT');
       checkbox.setAttribute('type', 'checkbox');
       checkbox.setAttribute('name', fid);
       checkbox.setAttribute('class', 'formFields');
@@ -271,25 +274,25 @@ class Form {
       checkbox.onclick = this.selectedTempRowForDeletion;
       rowDiv.appendChild(checkbox);
 
-      let h3 = document.createElement('h3');
-      let textNode = document.createTextNode(fid);
+      const h3 = document.createElement('h3');
+      const textNode = document.createTextNode(fid);
       h3.appendChild(textNode);
       h3.setAttribute('name', fid);
       h3.setAttribute('class', fid);
       rowDiv.appendChild(h3);
 
-      let input = document.createElement('input');
+      const input = document.createElement('input');
       this.attrib(input, fid, type);
       rowDiv.appendChild(input);
 
-      let save = document.createElement('button');
+      const save = document.createElement('button');
       this.buttonAttrib(save, fid, type);
 
       save.onclick = this.onSave;
       save.innerHTML = 'save';
       rowDiv.appendChild(save);
 
-      let remove = document.createElement('button');
+      const remove = document.createElement('button');
       this.buttonAttrib(remove, fid);
       remove.setAttribute('id', fid);
 
@@ -298,23 +301,23 @@ class Form {
       rowDiv.appendChild(remove);
       form.appendChild(rowDiv);
 
-      let main = new Main();
+      const main = new Main();
       main.FM.activeMultiDeleteCheckBox();
     }
   }
   displayForm(dataArray) {
-    let form = document.getElementById('dynamicForm');
+    const form = document.getElementById('dynamicForm');
     form.innerHTML = '';
     for (let i in dataArray) {
-      let id = dataArray[i].id;
-      let type = dataArray[i].type;
-      let value = dataArray[i].value;
+      const id = dataArray[i].id;
+      const type = dataArray[i].type;
+      const value = dataArray[i].value;
 
-      let rowDiv = document.createElement('div');
+      const rowDiv = document.createElement('div');
       // rowDiv.className = id;
       rowDiv.setAttribute('id', id);
 
-      let checkbox = document.createElement('INPUT');
+      const checkbox = document.createElement('INPUT');
       checkbox.setAttribute('type', 'checkbox');
       checkbox.setAttribute('id', id);
       checkbox.setAttribute('class', 'formFields');
@@ -322,17 +325,17 @@ class Form {
       checkbox.onclick = this.selectedRowForDeletion;
       rowDiv.appendChild(checkbox);
 
-      let h3 = document.createElement('h3');
-      let textNode = document.createTextNode(id);
+      const h3 = document.createElement('h3');
+      const textNode = document.createTextNode(id);
       h3.appendChild(textNode);
       h3.setAttribute('class', id);
       rowDiv.appendChild(h3);
 
-      let input = document.createElement('input');
+      const input = document.createElement('input');
       this.attrib(input, id, type, value);
       rowDiv.appendChild(input);
 
-      let save = document.createElement('button');
+      const save = document.createElement('button');
       this.attrib(save, id, type, value);
       this.buttonAttrib(save, id, type);
 
@@ -340,7 +343,7 @@ class Form {
       save.innerHTML = 'save';
       rowDiv.appendChild(save);
 
-      let remove = document.createElement('button');
+      const remove = document.createElement('button');
       this.buttonAttrib(remove, id);
       // remove.setAttribute("type", "button");
       remove.setAttribute('name', id);
@@ -353,7 +356,7 @@ class Form {
       document.querySelector(`.${id}`).style.backgroundColor = '#C9E4C5';
     }
     if (dataArray.length) {
-      let form = new Main();
+      const form = new Main();
       form.FM.activeMultiDeleteCheckBox();
     }
   }

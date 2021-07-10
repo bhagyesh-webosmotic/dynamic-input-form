@@ -15,7 +15,7 @@ class Storage {
         this.value = value;
       }
 
-      let obj = new structure(id, type, value);
+      const obj = new structure(id, type, value);
 
       dataArray.forEach((element) => {
         if (element.id == id) {
@@ -27,7 +27,7 @@ class Storage {
       });
       dataArray.push(obj);
       localStorage['input'] = JSON.stringify(dataArray);
-      let form = new Main();
+      const form = new Main();
       form.FM.makeRowGreen(id);
       // form.FM.activeCheckbox(id)
     }
@@ -49,7 +49,7 @@ class Storage {
     // }
     // 	localStorage["input"] = JSON.stringify(dataArray);
 
-    let form = new Form();
+    const form = new Form();
     form.refreshPage();
     form.deactiveDeleteButtonAfterDelete();
   }
@@ -81,15 +81,18 @@ class Storage {
     for (let i in selectedRowIds) {
       for (let j in dataArray) {
         if (dataArray[j].id == selectedRowIds[i]) {
-          let index = dataArray.indexOf(dataArray[j]);
+          const index = dataArray.indexOf(dataArray[j]);
           dataArray.splice(index, 1);
         }
       }
     }
+    const dataArrayLength = dataArray.length;
     localStorage['input'] = JSON.stringify(dataArray);
-    let form = new Main();
+    const form = new Main();
     form.FM.refreshPage();
     form.FM.deactiveDeleteButton();
-    form.FM.deactiveMultiDeleteCheckBox();
+    if (!dataArrayLength) {
+      form.FM.deactiveMultiDeleteCheckBox();
+    }
   }
 }

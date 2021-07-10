@@ -1,198 +1,194 @@
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 table {
-	border-collapse: separate;
-	background: #fff;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	margin: 50px auto;
-	-moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-	-webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  border-collapse: separate;
+  background: #fff;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin: 50px auto;
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
 
 tr td {
-	font-family: "Open Sans", sans-serif;
-	font-weight: 400;
-	color: #5f6062;
-	font-size: 13px;
-	padding: 20px 20px 20px 20px;
-	border-bottom: 1px solid #e0e0e0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  color: #5f6062;
+  font-size: 13px;
+  padding: 20px 20px 20px 20px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 tr:nth-child(2n) {
-	background: #f0f3f5;
+  background: #f0f3f5;
 }
 
 tr:last-child td {
-	border-bottom: none;
+  border-bottom: none;
 }
 tr:last-child td:first-child {
-	-moz-border-radius-bottomleft: 5px;
-	-webkit-border-bottom-left-radius: 5px;
-	border-bottom-left-radius: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 tr:last-child td:last-child {
-	-moz-border-radius-bottomright: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 body {
-	height: 100vh;
-	background-color: #fff;
+  height: 100vh;
+  background-color: #fff;
 }
 .container {
-	width: 70%;
-	margin: auto;
-	background-color: #ededed;
+  width: 70%;
+  margin: auto;
+  background-color: #ededed;
 }
 .formDiv {
-	margin-top: 50px;
-	padding: 20px 20px;
-	/* display: flex; */
-	justify-content: space-around;
-	border-radius: 10px;
+  margin-top: 50px;
+  padding: 20px 20px;
+  /* display: flex; */
+  justify-content: space-around;
+  border-radius: 10px;
 }
 .btn {
-	padding: 10px 20px;
-	border-radius: 5px;
-	background-color: #0091e0;
-	color: #fff;
-	border: 1px solid black;
-	margin-right: 5px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #0091e0;
+  color: #fff;
+  border: 1px solid black;
+  margin-right: 5px;
 }
 .btnStatic {
-	padding: 10px 22px;
-	border-radius: 5px;
-	background-color: #0091e0;
-	color: #fff;
-	border: 1px solid black;
+  padding: 10px 22px;
+  border-radius: 5px;
+  background-color: #0091e0;
+  color: #fff;
+  border: 1px solid black;
 }
 .formFields {
-	height: 35px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	background-color: #fff;
-	border: 1px solid;
-	border-radius: 5px;
-	width: 30%;
-	margin: 3px 5px;
-	padding-left: 10px;
+  height: 35px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid;
+  border-radius: 5px;
+  width: 30%;
+  margin: 3px 5px;
+  padding-left: 10px;
 }
 
 .staticForm {
-	margin-right: 3px;
-	text-align: center;
+  margin-right: 3px;
+  text-align: center;
 }
 .dynamicForm {
-	text-align: center;
-	margin-top: 2px;
+  text-align: center;
+  margin-top: 2px;
 }
 
 .formFieldsStatic {
-	height: 35px;
-	padding-top: 8px;
-	padding-bottom: 10px;
-	background-color: #fff;
-	border: 1px solid;
-	border-radius: 5px;
-	width: 23.5%;
-	margin-left: 1px;
-	padding-left: 5px;
+  height: 35px;
+  padding-top: 8px;
+  padding-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid;
+  border-radius: 5px;
+  width: 23.5%;
+  margin-left: 1px;
+  padding-left: 5px;
 }
 h3 {
-	text-align: left;
-	display: inline-block;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	background-color: #ededed;
-	border-style: 1px;
-	border-radius: 5px;
-	width: 30%;
+  text-align: left;
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #ededed;
+  border-style: 1px;
+  border-radius: 5px;
+  width: 30%;
 }
 .colorPicker {
-	width: 31%;
-	margin-left: 3px;
-	margin-right: 3px;
-	border: none;
+  width: 31%;
+  margin-left: 3px;
+  margin-right: 3px;
+  border: none;
 }
 .rangePicker {
-	height: 10px;
+  height: 10px;
 }
-.row{
-
+.checkbox {
+  height: auto;
+  width: auto;
 }
-.checkbox{
-height: auto;
-width: auto;
-}
-.multiDelete{
+.multiDelete {
   visibility: hidden;
 }
-.multiDeleteCheckbox{
+.multiDeleteCheckbox {
   height: auto;
   width: auto;
   visibility: hidden;
 }
 @media screen and (max-width: 850px) {
-	.container {
-		width: 100%;
-	}
-	.colorPicker {
-		width: 30%;
-		margin-right: 7px;
-	}
+  .container {
+    width: 100%;
+  }
+  .colorPicker {
+    width: 30%;
+    margin-right: 7px;
+  }
   .formFieldsStatic {
-		width: 18%;
-		margin-bottom: 5px;
-	}
+    width: 18%;
+    margin-bottom: 5px;
+  }
   h3 {
-		width: 25%;
-	}
-  .multiDeleteCheckbox{
-  width: auto;
-}
-
+    width: 25%;
+  }
+  .multiDeleteCheckbox {
+    width: auto;
+  }
 }
 @media screen and (max-width: 515px) {
-	.formFieldsStatic {
-		width: 42%;
-		margin-bottom: 5px;
-	}
-	.formFields {
-		width: 45%;
-		margin-bottom: 5px;
-	}
-	.btn {
-		width: 100%;
-		margin-bottom: 5px;
-	}
-	.btnStatic {
-		width: 100%;
-		margin-bottom: 5px;
-	}
-	h3 {
-		width: 40%;
-	}
-	.colorPicker {
-		width: 45%;
-	}
-  .checkbox{
-height: auto;
-width: auto;
-}
- .multiDeleteCheckbox{
-  width: auto;
-}
+  .formFieldsStatic {
+    width: 42%;
+    margin-bottom: 5px;
+  }
+  .formFields {
+    width: 45%;
+    margin-bottom: 5px;
+  }
+  .btn {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .btnStatic {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  h3 {
+    width: 40%;
+  }
+  .colorPicker {
+    width: 45%;
+  }
+  .checkbox {
+    height: auto;
+    width: auto;
+  }
+  .multiDeleteCheckbox {
+    width: auto;
+  }
 }
 @media screen and (min-width: 850px) {
-	.colorPicker {
-		width: 30%;
-		margin-right: 7px;
-	}
+  .colorPicker {
+    width: 30%;
+    margin-right: 7px;
+  }
 }
