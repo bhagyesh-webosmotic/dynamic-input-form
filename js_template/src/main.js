@@ -10,20 +10,31 @@ function pageRefresh() {
 	FM.refreshPage();
 	FM.clearForm();
 }
+
+
+
 function createMainInstance(fid, type) {
-	let SM = new Storage();
+		let SM = new Storage();
 	let dataArray = SM.dataRetrieve();
 	let inputDOMRow = document.querySelectorAll(`input[name="${fid}"]`);
-	for (let i of dataArray) {
-		if (i.id == fid || inputDOMRow.length > 0 || fid.length < 3) {
+
+  if (!dataArray.length) {
+		if (inputDOMRow.length > 0 || fid.length < 3) {
 			alert("please enter unique id and at least 3 digits long");
-			return;
+			return false;
+		}
+	} else {
+		for (let i of dataArray) {
+			if (i.id == fid || inputDOMRow.length > 0 || fid.length < 3) {
+				alert("please enter unique id and at least 3 digits long");
+				return false;
+			}
 		}
 	}
-	let sid = uuidv4();
-	const form = new Main(fid, sid, type);
-	let FM = new Form();
-	FM.clearForm();
+		let sid = uuidv4();
+		const form = new Main(fid, sid, type);
+		let FM = new Form();
+		FM.clearForm();
 }
 class Main {
 	constructor(fid, sid, type) {
@@ -34,32 +45,65 @@ class Main {
 		// this.dataArray = this.SM.dataRetrieve();
 		this.FM = new Form(this.fid);
 		// this.FM.displayForm(this.dataArray);
-		this.FM.createForm(this.fid, this.type); // (creates input field in DOM)
-		this.FM.onSave = function (e) {
-			let id = e.target.name;
-			let type = e.target.getAttribute("input-type");
-			let value = document.getElementById(e.target.name).value;
+		this.FM.createForm(this.fid, this.type);
+		this.FM.onSave = function (id, type, value) {
 			this.SM = new Storage(this.sid);
 			this.SM.addRow(id, type, value);
 			this.clearForm();
 		};
-		this.FM.onRemove = function (e) {
-			let removeRowId = e.target.getAttribute("name");
+		this.FM.onRemove = function (removeRowId) {
 			let SM = new Storage();
 			SM.removeRow(removeRowId);
 		};
 		this.FM.refreshPage = function () {
-			console.log("refresh triggered");
-			document.getElementById("dynamicForm").innerHTML = "";
 			let FM = new Form();
 			let SM = new Storage();
 			let dataArray = SM.dataRetrieve();
 			FM.displayForm(dataArray);
 		};
-		this.FM.removeTempRow = function (e) {
-			let targetId = e.target.id;
-			let targets = document.getElementsByName(targetId);
-			this.removeTempRowLoop(targets);
+		this.FM.removeTempRow = function (targetId) {
+			// console.log("inside main class removeTempRow");
+			let SM = new Storage();
+			SM.checkIfDeletedWasSaved(targetId);
+			// this.removeTempRowLoop(targets);
+		};
+		this.FM.makeRowGreen = function (id) {
+			this.makeRowGreenColor(id);
+		};
+		this.FM.activeCheckbox = function (id) {
+			this.activeCheckboxRow(id);
+		};
+		this.FM.deactiveDeleteButton = function () {
+			this.deactiveDeleteButtonAfterDelete();
 		};
 	}
+}
+let array = [];
+function storeid(id) {
+	// console.log(`received id for array:${id}`);
+	let matched = false;
+	for (let i in array) {
+		if (array[i] == id) {
+			let index = array.indexOf(id);
+			array.splice(index, 1);
+			matched = true;
+		}
+	}
+	if (!matched) {
+		array.push(id);
+	}
+	if (array.length) {
+		let FM = new Form();
+		FM.activeDeleteButton();
+	} else {
+		let FM = new Form();
+		FM.deactiveDeleteButtonAfterDelete();
+	}
+}
+
+function multiRowDelete() {
+	let SM = new Storage();
+	SM.deleteSelectedRows(array);
+	let Fm = new Form();
+	Fm.deleteTempRowByCheckbox(array);
 }

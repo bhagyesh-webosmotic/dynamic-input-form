@@ -47,14 +47,14 @@ body {
 	background-color: #fff;
 }
 .container {
-	width: 60%;
+	width: 70%;
 	margin: auto;
 	background-color: #ededed;
 }
 .formDiv {
 	margin-top: 50px;
 	padding: 20px 20px;
-	display: flex;
+	/* display: flex; */
 	justify-content: space-around;
 	border-radius: 10px;
 }
@@ -101,7 +101,7 @@ body {
 	background-color: #fff;
 	border: 1px solid;
 	border-radius: 5px;
-	width: 30%;
+	width: 23.5%;
 	margin-left: 1px;
 	padding-left: 5px;
 }
@@ -124,7 +124,21 @@ h3 {
 .rangePicker {
 	height: 10px;
 }
+.row{
 
+}
+.checkbox{
+height: auto;
+width: auto;
+}
+.multiDelete{
+  visibility: hidden;
+}
+.multiDeleteCheckbox{
+  height: auto;
+  width: auto;
+  visibility: hidden;
+}
 @media screen and (max-width: 850px) {
 	.container {
 		width: 100%;
@@ -133,16 +147,26 @@ h3 {
 		width: 30%;
 		margin-right: 7px;
 	}
+  .formFieldsStatic {
+		width: 18%;
+		margin-bottom: 5px;
+	}
+  h3 {
+		width: 25%;
+	}
+  .multiDeleteCheckbox{
+  width: auto;
+}
+
 }
 @media screen and (max-width: 515px) {
 	.formFieldsStatic {
-		width: 49%;
+		width: 42%;
 		margin-bottom: 5px;
 	}
 	.formFields {
 		width: 45%;
 		margin-bottom: 5px;
-		float: right;
 	}
 	.btn {
 		width: 100%;
@@ -153,11 +177,18 @@ h3 {
 		margin-bottom: 5px;
 	}
 	h3 {
-		width: 50%;
+		width: 40%;
 	}
 	.colorPicker {
 		width: 45%;
 	}
+  .checkbox{
+height: auto;
+width: auto;
+}
+ .multiDeleteCheckbox{
+  width: auto;
+}
 }
 @media screen and (min-width: 850px) {
 	.colorPicker {
