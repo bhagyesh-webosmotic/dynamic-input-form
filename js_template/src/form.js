@@ -25,7 +25,13 @@ class Form {
 		let targetId = e.target.id;
 		let targets = document.getElementsByName(targetId);
 		let form = new Main();
-		document.getElementById(targetId).remove();
+    
+    if(document.querySelector(`[row="${targetId}"]`)){
+document.querySelector(`[row="${targetId}"]`).remove()
+    }else{
+      document.getElementById(targetId).remove();
+    }
+		
 		form.FM.removeTempRow(targetId);
 	}
 	clearForm() {
@@ -69,7 +75,7 @@ class Form {
 		for (let i in array) {
 			// element.parentNode.removeChild(element)
 			// array[i].remove()
-			console.log(array[i]);
+			// console.log(array[i]);
 		}
 	}
 	// storeSelectedRowIdForDeletion(id){
