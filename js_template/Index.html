@@ -10,19 +10,16 @@
 
   <body>
     <div class="container">
-      <div class="formDiv">
-        <form id="form">
-          <div id="staticForm" class="staticForm">
-            <h2>Dynamically adding element inside the form.</h2>
-            <br />
-          </div>
-          <div id="dynamicForm" class="dynamicForm"></div>
-        </form>
-      </div>
+      <form class="formDiv">
+        <div id="staticForm" class="staticForm">
+          <div id="staticFormContainer" class="staticFormContainer"></div>
+        </div>
+        <div id="dynamicForm" class="dynamicForm">
+          <div id="dynamicFormContainer" class="dynamicFormContainer"></div>
+        </div>
+      </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
-    <!-- <script src="./src/storage.js"></script>
-		<script src="./src/form.js"></script> -->
     <script src="./src/main.js" type="module"></script>
   </body>
 </html>

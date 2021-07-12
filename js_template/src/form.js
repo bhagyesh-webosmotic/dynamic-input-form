@@ -1,4 +1,4 @@
-import Main, { array } from './main.js';
+import Main, { array, tempArray } from './main.js';
 export default class Form {
   constructor(fid) {
     this.fid = fid;
@@ -78,40 +78,101 @@ export default class Form {
   }
 
   selectedTempRowForDeletion(e) {
+    const FM = new Form();
     const targetId = e.target.name;
     const selectedRowByName = document.getElementsByName(targetId).checked;
     if (!selectedRowByName) {
-      const FM = new Form();
       FM.storeId(targetId);
     }
+    FM.checkIfAllCheckboxesAreSelected(targetId);
     // document.getElementById(targetId).remove()
   }
   selectedRowForDeletion(e) {
+    const FM = new Form();
     const targetId = e.target.id;
     const selectedRow = document.getElementById(targetId).checked;
     if (!selectedRow) {
-      const FM = new Form();
       FM.storeId(targetId);
     }
+    FM.checkIfAllCheckboxesAreSelected(targetId);
   }
 
   checkAllcheckBoxes() {
-    var allInputs = document.getElementsByTagName('input');
-    for (var i = 0; i < allInputs.length; i++) {
-      if (allInputs[i].type === 'checkbox' && allInputs[i].id !== 'multiDeleteCheckbox') {
-        allInputs[i].checked = true;
-        if (allInputs[i].id) {
-          this.storeId(allInputs[i].id);
-        } else {
-          this.storeId(allInputs[i].name);
+    const currentStateOfCheckAllCheckbox = document.getElementById('multiDeleteCheckbox');
+    const allInputs = document.getElementsByTagName('input');
+    const delteAllButtonStatus = document.getElementById('delete').style.visibility;
+    if (!currentStateOfCheckAllCheckbox.checked) {
+      for (var i = 0; i < allInputs.length; i++) {
+        if (allInputs[i].type === 'checkbox' && allInputs[i].id !== 'multiDeleteCheckbox') {
+          allInputs[i].checked = false;
+        }
+      }
+      if (delteAllButtonStatus == 'visible') {
+        console.log('disabled delete button');
+        this.disableDeleteButtonAfterDelete();
+        document.getElementById('delete').style.visibility = 'hidden';
+      }
+    } else {
+      for (let i = 0; i < allInputs.length; i++) {
+        if (allInputs[i].type === 'checkbox' && allInputs[i].id !== 'multiDeleteCheckbox') {
+          allInputs[i].checked = true;
+          if (allInputs[i].id) {
+            this.storeId(allInputs[i].id);
+          } else {
+            this.storeId(allInputs[i].name);
+          }
         }
       }
     }
   }
+  checkIfAllCheckboxesAreSelected(id) {
+    const allInputs = document.getElementsByTagName('input');
+    let allInputsCount = 0;
 
+    for (let i = 0; i < allInputs.length; i++) {
+      if (allInputs[i].type === 'checkbox' && allInputs[i].id !== 'multiDeleteCheckbox') {
+        allInputsCount++;
+      }
+    }
+
+    let matched = false;
+    if (id && id !== 'multiDeleteCheckbox') {
+      for (const i in tempArray) {
+        if (tempArray[i] == id) {
+          const index = tempArray.indexOf(id);
+          tempArray.splice(index, 1);
+          matched = true;
+        }
+      }
+      if (!matched) {
+        tempArray.push(id);
+        console.log(tempArray);
+      }
+    }
+
+    if (tempArray.length == allInputsCount) {
+      document.getElementById('multiDeleteCheckbox').checked = true;
+    } else {
+      document.getElementById('multiDeleteCheckbox').checked = false;
+    }
+  }
   staticFormGenerate() {
     const main = new Main();
-    const staticForm = document.getElementById('staticForm');
+    const staticFormContainer = document.getElementById('staticFormContainer');
+    const checkboxContainer = document.createElement('div');
+    checkboxContainer.className = 'checkboxContainer';
+    const inputContainer = document.createElement('div');
+    inputContainer.className = 'inputContainer';
+    const selectAndAddContainer = document.createElement('div');
+    selectAndAddContainer.className = 'selectAndAddContainer';
+    const refreshAndDeleteContainer = document.createElement('div');
+    refreshAndDeleteContainer.className = 'refreshAndDeleteContainer';
+
+    // const staticForm = document.getElementById('staticForm');
+    //
+    // const h2 = document.createElement('h2');
+    // h2.innerText = 'Dynamically adding element inside the form.';
+    // staticFormContainer.appendChild(h2);
     //
     const multiDeleteCheckbox = document.createElement('input');
     multiDeleteCheckbox.type = 'checkbox';
@@ -120,21 +181,27 @@ export default class Form {
     multiDeleteCheckbox.className = 'multiDeleteCheckbox';
     multiDeleteCheckbox.classList.add('formFieldsStatic');
     multiDeleteCheckbox.onclick = main.FM.checkAllcheckBoxesFunction;
-    staticForm.appendChild(multiDeleteCheckbox);
+    checkboxContainer.appendChild(multiDeleteCheckbox);
+    staticFormContainer.appendChild(checkboxContainer);
     //
     const idInput = document.createElement('input');
     idInput.setAttribute('type', 'text');
     idInput.name = 'idName';
     idInput.className = 'formFieldsStatic';
+    idInput.classList.add('staticInput');
     idInput.id = 'idInput';
     idInput.placeholder = 'Enter ID';
-    staticForm.appendChild(idInput);
+    inputContainer.appendChild(idInput);
+    staticFormContainer.appendChild(inputContainer);
+
     //
     const selectOption = document.createElement('select');
     selectOption.name = 'element';
     selectOption.className = 'formFieldsStatic';
+    selectOption.classList.add('staticSelect');
     selectOption.id = 'element';
-    staticForm.appendChild(selectOption);
+    selectAndAddContainer.appendChild(selectOption);
+    staticFormContainer.appendChild(selectAndAddContainer);
     const optionList = document.getElementById('element').options;
     const options = [
       {
@@ -176,26 +243,32 @@ export default class Form {
     const addButton = document.createElement('input');
     addButton.setAttribute('type', 'button');
     addButton.className = 'btnStatic';
+    addButton.classList.add('staticAdd');
     addButton.value = 'Add';
     addButton.onclick = main.FM.createFormRow;
-    staticForm.appendChild(addButton);
+    selectAndAddContainer.appendChild(addButton);
+    staticFormContainer.appendChild(selectAndAddContainer);
     //
     const refreshButton = document.createElement('input');
     refreshButton.setAttribute('type', 'button');
     refreshButton.id = 'Refresh';
     refreshButton.className = 'btnStatic';
+    refreshButton.classList.add('staticRefresh');
     refreshButton.value = 'Refresh';
     refreshButton.onclick = main.FM.refreshPage;
-    staticForm.appendChild(refreshButton);
+    refreshAndDeleteContainer.appendChild(refreshButton);
+    staticFormContainer.appendChild(refreshAndDeleteContainer);
     //
     const deleteButton = document.createElement('input');
     deleteButton.setAttribute('type', 'button');
     deleteButton.id = 'delete';
     deleteButton.className = 'btnStatic';
     deleteButton.classList.add('multiDelete');
+    deleteButton.classList.add('staticDelete');
     deleteButton.value = 'Delete';
     deleteButton.onclick = main.SM.multiRowDeleteFunction;
-    staticForm.appendChild(deleteButton);
+    refreshAndDeleteContainer.appendChild(deleteButton);
+    staticFormContainer.appendChild(refreshAndDeleteContainer);
   }
   attrib(input, id, type, value) {
     if (!value) {
@@ -265,7 +338,16 @@ export default class Form {
       // rowDiv.className = fid;
       rowDiv.setAttribute('row', fid);
 
-      const form = document.getElementById('dynamicForm');
+      const form = document.getElementById('dynamicFormContainer');
+
+      const checkboxContainer = document.createElement('div');
+      checkboxContainer.className = 'checkboxContainer';
+      const lebalContainer = document.createElement('div');
+      lebalContainer.className = 'lebalContainer';
+      const inputContainer = document.createElement('div');
+      inputContainer.className = 'selectContainer';
+      const saveAndRemoveContainer = document.createElement('div');
+      saveAndRemoveContainer.className = 'refreshAndDeleteContainer';
 
       const checkbox = document.createElement('INPUT');
       checkbox.setAttribute('type', 'checkbox');
@@ -273,25 +355,29 @@ export default class Form {
       checkbox.setAttribute('class', 'formFields');
       checkbox.classList.add('checkbox');
       checkbox.onclick = this.selectedTempRowForDeletion;
-      rowDiv.appendChild(checkbox);
+      checkboxContainer.appendChild(checkbox);
+      rowDiv.appendChild(checkboxContainer);
 
       const h3 = document.createElement('h3');
       const textNode = document.createTextNode(fid);
       h3.appendChild(textNode);
       h3.setAttribute('name', fid);
       h3.setAttribute('class', fid);
-      rowDiv.appendChild(h3);
+      lebalContainer.appendChild(h3);
+      rowDiv.appendChild(lebalContainer);
 
       const input = document.createElement('input');
       this.attrib(input, fid, type);
-      rowDiv.appendChild(input);
+      inputContainer.appendChild(input);
+      rowDiv.appendChild(inputContainer);
 
       const save = document.createElement('button');
       this.buttonAttrib(save, fid, type);
 
       save.onclick = this.onSave;
       save.innerHTML = 'save';
-      rowDiv.appendChild(save);
+      saveAndRemoveContainer.appendChild(save);
+      rowDiv.appendChild(saveAndRemoveContainer);
 
       const remove = document.createElement('button');
       this.buttonAttrib(remove, fid);
@@ -299,7 +385,8 @@ export default class Form {
 
       remove.onclick = this.removeTempRow;
       remove.innerHTML = 'Remove';
-      rowDiv.appendChild(remove);
+      saveAndRemoveContainer.appendChild(remove);
+      rowDiv.appendChild(saveAndRemoveContainer);
       form.appendChild(rowDiv);
 
       const main = new Main();
@@ -308,7 +395,7 @@ export default class Form {
     }
   }
   displayForm(dataArray) {
-    const form = document.getElementById('dynamicForm');
+    const form = document.getElementById('dynamicFormContainer');
     form.innerHTML = '';
     for (const i in dataArray) {
       const id = dataArray[i].id;

@@ -86,12 +86,11 @@ body {
 }
 
 .staticForm {
-  margin-right: 3px;
-  text-align: center;
+  /* text-align: center; */
 }
 .dynamicForm {
-  text-align: center;
-  margin-top: 2px;
+  /* text-align: center;
+  margin-top: 2px; */
 }
 
 .formFieldsStatic {
@@ -101,8 +100,6 @@ body {
   background-color: #fff;
   border: 1px solid;
   border-radius: 5px;
-  width: 23.5%;
-  margin-left: 1px;
   padding-left: 5px;
 }
 h3 {
@@ -114,6 +111,9 @@ h3 {
   border-style: 1px;
   border-radius: 5px;
   width: 30%;
+}
+h2 {
+  margin-bottom: 10px;
 }
 .colorPicker {
   width: 31%;
@@ -135,6 +135,44 @@ h3 {
   height: auto;
   width: auto;
   visibility: hidden;
+}
+.staticFormContainer {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxContainer {
+  width: 10%;
+  padding: 0 5px;
+}
+.inputContainer {
+  width: 30%;
+  padding: 0 5px;
+}
+.staticInput {
+  width: 100%;
+}
+.selectAndAddContainer {
+  width: 40%;
+  padding: 0 5px;
+}
+.staticSelect {
+  width: 75%;
+  margin: 0 5px;
+}
+.staticAdd {
+  width: 20%;
+}
+.refreshAndDeleteContainer {
+  width: 20%;
+  padding: 0 5px;
+}
+.staticRefresh {
+  width: 45%;
+}
+.staticDelete {
+  width: 45%;
+  margin: 0 5px;
 }
 @media screen and (max-width: 850px) {
   .container {

@@ -2,6 +2,8 @@ import Form from './form.js';
 import Storage from './storage.js';
 
 export let array = [];
+export let tempArray = [];
+// export let checkboxCount = 0;
 
 window.onload = function () {
   const main = new Main();
@@ -80,6 +82,7 @@ export default class Main {
       FM.clearForm();
       FM.displayForm(dataArray);
       array = [];
+      tempArray = [];
     };
     this.FM.removeTempRow = function (targetId) {
       const SM = new Storage();
