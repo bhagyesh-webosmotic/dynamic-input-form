@@ -81,17 +81,6 @@ class Form {
       storeId(targetId);
     }
   }
-  deleteTempRowByCheckbox(array) {
-    for (let i in array) {
-      // element.parentNode.removeChild(element)
-      // array[i].remove()
-      // console.log(array[i]);
-    }
-  }
-  // storeSelectedRowIdForDeletion(id){
-  //   this.array.push(id)
-  //   console.log(this.array);
-  // }
 
   checkAllcheckBoxes() {
     var allInputs = document.getElementsByTagName('input');

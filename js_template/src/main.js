@@ -41,8 +41,6 @@ function multiRowDelete() {
   console.log(array);
   const SM = new Storage();
   SM.deleteSelectedRows(array);
-  const Fm = new Form();
-  Fm.deleteTempRowByCheckbox(array);
 }
 
 function pageRefresh() {
@@ -100,7 +98,6 @@ class Main {
       FM.displayForm(dataArray);
     };
     this.FM.removeTempRow = function (targetId) {
-      // console.log("inside main class removeTempRow");
       const SM = new Storage();
       SM.checkIfDeletedWasSaved(targetId);
       // this.removeTempRowLoop(targets);
