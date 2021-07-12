@@ -1,7 +1,7 @@
 import Form from './form.js';
 import Storage from './storage.js';
 
-export const array = [];
+export let array = [];
 
 window.onload = function () {
   const main = new Main();
@@ -79,6 +79,7 @@ export default class Main {
       const dataArray = SM.dataRetrieve();
       FM.clearForm();
       FM.displayForm(dataArray);
+      array = [];
     };
     this.FM.removeTempRow = function (targetId) {
       const SM = new Storage();

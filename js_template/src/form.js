@@ -4,7 +4,6 @@ export default class Form {
     this.fid = fid;
   }
   storeId(id) {
-    // console.log(`received id for array:${id}`);
     let matched = false;
     for (const i in array) {
       if (array[i] == id) {
@@ -15,6 +14,7 @@ export default class Form {
     }
     if (!matched) {
       array.push(id);
+      console.log(array);
     }
     if (array.length) {
       this.activeDeleteButton();
@@ -32,7 +32,6 @@ export default class Form {
   }
   onRemove(e) {
     const removeRowId = e.target.getAttribute('name');
-    console.log(`inside remove:${removeRowId}`);
     const main = new Main();
     main.FM.onRemove(removeRowId);
   }
@@ -98,17 +97,14 @@ export default class Form {
 
   checkAllcheckBoxes() {
     var allInputs = document.getElementsByTagName('input');
-    for (var i = 0, max = allInputs.length; i < max; i++) {
-      if (allInputs[i].type === 'checkbox') {
+    for (var i = 0; i < allInputs.length; i++) {
+      if (allInputs[i].type === 'checkbox' && allInputs[i].id !== 'multiDeleteCheckbox') {
         allInputs[i].checked = true;
         if (allInputs[i].id) {
           this.storeId(allInputs[i].id);
         } else {
-          console.log('temp row detected');
-          console.log(allInputs[i].name);
           this.storeId(allInputs[i].name);
         }
-        console.log(allInputs[i]);
       }
     }
   }

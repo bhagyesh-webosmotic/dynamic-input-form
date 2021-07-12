@@ -21,9 +21,7 @@ export default class Storage {
 
       dataArray.forEach((element) => {
         if (element.id == id) {
-          console.log('matched');
           const index = dataArray.indexOf(element);
-          // console.log(index);
           dataArray.splice(index, 1);
         }
       });
@@ -66,10 +64,8 @@ export default class Storage {
   checkIfDeletedWasSaved(targetId) {
     let dataArray = [];
     dataArray = JSON.parse(localStorage['input']);
-    // console.log(`target id of temp Row:${targetId}`);
     for (const i in dataArray) {
       if (dataArray[i].id == targetId) {
-        // console.log("matched temp row for saved data");
         this.removeRow(targetId);
       }
     }
