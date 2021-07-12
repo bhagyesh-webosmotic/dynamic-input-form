@@ -27,9 +27,9 @@ class Storage {
       });
       dataArray.push(obj);
       localStorage['input'] = JSON.stringify(dataArray);
-      const form = new Main();
-      form.FM.makeRowGreen(id);
-      // form.FM.activeCheckbox(id)
+      const main = new Main();
+      main.FM.makeRowGreen(id);
+      // main.FM.activeCheckbox(id)
     }
   }
   removeRow(removeRowId) {
@@ -49,9 +49,9 @@ class Storage {
     // }
     // 	localStorage["input"] = JSON.stringify(dataArray);
 
-    const form = new Form();
-    form.refreshPage();
-    form.deactiveDeleteButtonAfterDelete();
+    const FM = new Form();
+    FM.refreshPage();
+    FM.disableDeleteButtonAfterDelete();
   }
   dataRetrieve() {
     if (localStorage['input'] === undefined) {
@@ -88,11 +88,11 @@ class Storage {
     }
     const dataArrayLength = dataArray.length;
     localStorage['input'] = JSON.stringify(dataArray);
-    const form = new Main();
-    form.FM.refreshPage();
-    form.FM.deactiveDeleteButton();
+    const main = new Main();
+    main.FM.refreshPage();
+    main.FM.disableDeleteButton();
     if (!dataArrayLength) {
-      form.FM.deactiveMultiDeleteCheckBox();
+      main.FM.disableMultiDeleteCheckBox();
     }
   }
 }

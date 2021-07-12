@@ -6,28 +6,28 @@ class Form {
     const id = e.target.name;
     const type = e.target.getAttribute('input-type');
     const value = document.getElementById(e.target.name).value;
-    const form = new Main();
-    form.FM.onSave(id, type, value);
-    form.FM.activeMultiDeleteCheckBox();
+    const main = new Main();
+    main.FM.onSave(id, type, value);
+    main.FM.activeMultiDeleteCheckBox();
   }
   onRemove(e) {
     const removeRowId = e.target.getAttribute('name');
     console.log(`inside remove:${removeRowId}`);
-    const form = new Main();
-    form.FM.onRemove(removeRowId);
+    const main = new Main();
+    main.FM.onRemove(removeRowId);
   }
   refreshPage() {
     console.log('refresh triggered');
     document.getElementById('dynamicForm').innerHTML = '';
-    const form = new Main();
-    form.FM.refreshPage();
+    const main = new Main();
+    main.FM.refreshPage();
     const refreshMultiDeleteCheckbox = document.getElementById('multiDeleteCheckbox');
     refreshMultiDeleteCheckbox.checked = false;
   }
   removeTempRow(e) {
     const targetId = e.target.id;
     const targets = document.getElementsByName(targetId);
-    const form = new Main();
+    const main = new Main();
 
     if (document.querySelector(`[row="${targetId}"]`)) {
       document.querySelector(`[row="${targetId}"]`).remove();
@@ -35,7 +35,7 @@ class Form {
       document.getElementById(targetId).remove();
     }
 
-    form.FM.removeTempRow(targetId);
+    main.FM.removeTempRow(targetId);
   }
   clearForm() {
     document.getElementById('idInput').value = '';
@@ -356,8 +356,8 @@ class Form {
       document.querySelector(`.${id}`).style.backgroundColor = '#C9E4C5';
     }
     if (dataArray.length) {
-      const form = new Main();
-      form.FM.activeMultiDeleteCheckBox();
+      const main = new Main();
+      main.FM.activeMultiDeleteCheckBox();
     }
   }
 }

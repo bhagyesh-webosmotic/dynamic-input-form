@@ -5,7 +5,7 @@ window.onload = function () {
   FM.staticFormGenerate();
   FM.displayForm(dataArray);
 
-  const form = new Main();
+  const main = new Main();
 };
 
 const array = [];
@@ -70,7 +70,7 @@ function createMainInstance(fid, type) {
     }
   }
   const sid = uuidv4();
-  const form = new Main(fid, sid, type);
+  const main = new Main(fid, sid, type);
   const FM = new Form();
   FM.clearForm();
 }
