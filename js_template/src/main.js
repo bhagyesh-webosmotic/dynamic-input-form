@@ -7,7 +7,7 @@ export let tempArray = [];
 
 window.onload = function () {
   const main = new Main();
-  main.FM.formOnload();
+  main.FM.formOnload('formContainer');
 };
 export default class Main {
   constructor(fid, sid) {
@@ -45,21 +45,33 @@ export default class Main {
       SM.deleteSelectedRows(array);
     };
 
-    this.FM.formOnload = function () {
+    this.FM.formOnload = function (id) {
       const SM = new Storage();
       const dataArray = SM.dataRetrieve();
       const FM = new Form();
-      FM.staticFormGenerate();
-      FM.displayForm(dataArray);
+      FM.staticFormGenerate(id);
+      // FM.displayForm(dataArray);
     };
     this.FM.checkAllcheckBoxesFunction = function () {
       const FM = new Form();
       FM.checkAllcheckBoxes();
       FM.activeDeleteButton();
     };
-    this.FM.createFormRow = function () {
+    this.FM.createFormRow = function (e) {
+      const triggeredDiv = e.target.parentNode.parentNode.parentNode.id;
       const FM = new Form();
-      FM.createForm(document.forms[0][1].value, document.forms[0].element.value);
+      if (triggeredDiv !== 'formContainer') {
+        console.log(e.target.parentNode.childNodes[0].value);
+        console.log(e.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+        console.log(e.target.parentNode.parentNode.parentNode.id);
+        FM.createForm(
+          e.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+          e.target.parentNode.childNodes[0].value,
+          e.target.parentNode.parentNode.parentNode.id
+        );
+      } else {
+        FM.createForm(document.forms[0][1].value, document.forms[0].element.value, 'formContainer');
+      }
     };
     this.FM.onSave = function (id, type, value) {
       this.SM = new Storage(this.sid);
@@ -80,7 +92,7 @@ export default class Main {
       const SM = new Storage();
       const dataArray = SM.dataRetrieve();
       FM.clearForm();
-      FM.displayForm(dataArray);
+      // FM.displayForm(dataArray);
       array = [];
       tempArray = [];
     };

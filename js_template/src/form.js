@@ -156,9 +156,19 @@ export default class Form {
       document.getElementById('multiDeleteCheckbox').checked = false;
     }
   }
-  staticFormGenerate() {
+  staticFormGenerate(id, classN) {
     const main = new Main();
-    const staticFormContainer = document.getElementById('staticFormContainer');
+
+    const formDiv = document.getElementById('formDiv');
+
+    const formContainer = document.createElement('div');
+    formContainer.id = `${id}`;
+    formContainer.className = 'formContainer';
+    formContainer.classList.add(classN);
+
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'adder';
+
     const nestedButtonContainer = document.createElement('div');
     nestedButtonContainer.className = 'nestedButtonContainer';
     const checkboxContainer = document.createElement('div');
@@ -169,19 +179,16 @@ export default class Form {
     selectAndAddContainer.className = 'selectAndAddContainer';
     const refreshAndDeleteContainer = document.createElement('div');
     refreshAndDeleteContainer.className = 'refreshAndDeleteContainer';
-
-    // const staticForm = document.getElementById('staticForm');
-    //
-    // const h2 = document.createElement('h2');
-    // h2.innerText = 'Dynamically adding element inside the form.';
-    // staticFormContainer.appendChild(h2);
     //
     const nestedAddIcon = document.createElement('i');
     nestedAddIcon.className = 'far';
     nestedAddIcon.classList.add('fa-plus-square');
     nestedAddIcon.onclick = this.nestedMenu;
     nestedButtonContainer.appendChild(nestedAddIcon);
-    staticFormContainer.appendChild(nestedButtonContainer);
+    rowDiv.appendChild(nestedButtonContainer);
+    formContainer.appendChild(rowDiv);
+    formDiv.appendChild(formContainer);
+
     //
     const multiDeleteCheckbox = document.createElement('input');
     multiDeleteCheckbox.type = 'checkbox';
@@ -191,7 +198,9 @@ export default class Form {
     multiDeleteCheckbox.classList.add('formFieldsStatic');
     multiDeleteCheckbox.onclick = main.FM.checkAllcheckBoxesFunction;
     checkboxContainer.appendChild(multiDeleteCheckbox);
-    staticFormContainer.appendChild(checkboxContainer);
+    rowDiv.appendChild(checkboxContainer);
+    formContainer.appendChild(rowDiv);
+    formDiv.appendChild(formContainer);
     //
     const idInput = document.createElement('input');
     idInput.setAttribute('type', 'text');
@@ -201,17 +210,21 @@ export default class Form {
     idInput.id = 'idInput';
     idInput.placeholder = 'Enter ID';
     inputContainer.appendChild(idInput);
-    staticFormContainer.appendChild(inputContainer);
+    rowDiv.appendChild(inputContainer);
+    formContainer.appendChild(rowDiv);
+    formDiv.appendChild(formContainer);
 
     //
     const selectOption = document.createElement('select');
     selectOption.name = 'element';
     selectOption.className = 'formFieldsStatic';
     selectOption.classList.add('staticSelect');
-    selectOption.id = 'element';
+    selectOption.id = `${id}-element`;
     selectAndAddContainer.appendChild(selectOption);
-    staticFormContainer.appendChild(selectAndAddContainer);
-    const optionList = document.getElementById('element').options;
+    rowDiv.appendChild(selectAndAddContainer);
+    formContainer.appendChild(rowDiv);
+    formDiv.appendChild(formContainer);
+    const optionList = document.getElementById(`${id}-element`).options;
     const options = [
       {
         text: 'Text',
@@ -256,7 +269,9 @@ export default class Form {
     addButton.value = 'Add';
     addButton.onclick = main.FM.createFormRow;
     selectAndAddContainer.appendChild(addButton);
-    staticFormContainer.appendChild(selectAndAddContainer);
+    rowDiv.appendChild(selectAndAddContainer);
+    formContainer.appendChild(rowDiv);
+    formDiv.appendChild(formContainer);
     //
     const refreshButton = document.createElement('input');
     refreshButton.setAttribute('type', 'button');
@@ -266,7 +281,9 @@ export default class Form {
     refreshButton.value = 'Refresh';
     refreshButton.onclick = main.FM.refreshPage;
     refreshAndDeleteContainer.appendChild(refreshButton);
-    staticFormContainer.appendChild(refreshAndDeleteContainer);
+    rowDiv.appendChild(refreshAndDeleteContainer);
+    formContainer.appendChild(rowDiv);
+    formDiv.appendChild(formContainer);
     //
     const deleteButton = document.createElement('input');
     deleteButton.setAttribute('type', 'button');
@@ -277,11 +294,25 @@ export default class Form {
     deleteButton.value = 'Delete';
     deleteButton.onclick = main.SM.multiRowDeleteFunction;
     refreshAndDeleteContainer.appendChild(deleteButton);
-    staticFormContainer.appendChild(refreshAndDeleteContainer);
+    rowDiv.appendChild(refreshAndDeleteContainer);
+    formContainer.appendChild(rowDiv);
+    formDiv.appendChild(formContainer);
   }
-  nestedMenu() {
+  nestedMenu(e) {
+    // console.log(e.target.parentNode.parentNode.parentNode.id);
+    const parentDivId = e.target.parentNode.parentNode.parentNode.id;
+    // console.log(e.target.parentNode.parentNode.parentNode.id);
+    console.log(e.target.parentNode.parentNode.parentNode.id);
+    // const nestedParentDiv = e.target.parentNode.parentNode.parentNode.id;
     const FM = new Form();
-    FM.staticFormGenerate();
+    const nestedClassName = 'netstedDiv';
+    let randomNumber = uuidv4();
+    if (parentDivId == 'formContainer') {
+      console.log('should be nested');
+      FM.staticFormGenerate(randomNumber, nestedClassName);
+    } else {
+      FM.staticFormGenerate(randomNumber);
+    }
   }
   attrib(input, id, type, value) {
     if (!value) {
@@ -344,15 +375,15 @@ export default class Form {
     const main = new Main();
     return main.SM.createMainInstance(id);
   }
-  createForm(fid, type) {
+  createForm(fid, type, divId) {
     const validData = this.validation(fid);
-    if (fid && validData) {
+    if (fid) {
       const rowDiv = document.createElement('div');
       rowDiv.className = 'dynamicRow';
-      // rowDiv.className = fid;
       rowDiv.setAttribute('row', fid);
 
-      const form = document.getElementById('dynamicForm');
+      const formContainer = document.getElementById(`${divId}`);
+
       const nestedButtonContainer = document.createElement('div');
       nestedButtonContainer.className = 'nestedButtonContainer';
       const checkboxContainer = document.createElement('div');
@@ -404,7 +435,7 @@ export default class Form {
       remove.innerHTML = 'Remove';
       saveAndRemoveContainer.appendChild(remove);
       rowDiv.appendChild(saveAndRemoveContainer);
-      form.appendChild(rowDiv);
+      formContainer.appendChild(rowDiv);
 
       const main = new Main();
       main.FM.activeMultiDeleteCheckBox();

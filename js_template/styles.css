@@ -138,12 +138,15 @@ h2 {
   width: auto;
   visibility: hidden;
 }
-.staticFormContainer {
+/* .staticFormContainer {
   display: flex;
   align-items: center;
-}
+} */
 .nestedButtonContainer {
   width: 5%;
+}
+.adder {
+  display: flex;
 }
 .checkboxContainer {
   width: 5%;
