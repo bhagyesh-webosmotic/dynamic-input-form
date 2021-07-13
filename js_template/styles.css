@@ -65,6 +65,7 @@ body {
   color: #fff;
   border: 1px solid black;
   margin-right: 5px;
+  width: 45%;
 }
 .btnStatic {
   padding: 10px 22px;
@@ -72,6 +73,7 @@ body {
   background-color: #0091e0;
   color: #fff;
   border: 1px solid black;
+  margin-right: 5px;
 }
 .formFields {
   height: 35px;
@@ -80,7 +82,7 @@ body {
   background-color: #fff;
   border: 1px solid;
   border-radius: 5px;
-  width: 30%;
+  width: 95%;
   margin: 3px 5px;
   padding-left: 10px;
 }
@@ -140,40 +142,65 @@ h2 {
   display: flex;
   align-items: center;
 }
-
+.nestedButtonContainer {
+  width: 5%;
+}
 .checkboxContainer {
-  width: 10%;
+  width: 5%;
   padding: 0 5px;
 }
 .inputContainer {
   width: 30%;
   padding: 0 5px;
 }
-.staticInput {
-  width: 100%;
-}
 .selectAndAddContainer {
   width: 40%;
   padding: 0 5px;
 }
+.refreshAndDeleteContainer {
+  width: 20%;
+}
+.staticInput {
+  width: 100%;
+}
+
 .staticSelect {
-  width: 75%;
-  margin: 0 5px;
+  width: 70%;
+  margin-right: 5px;
 }
 .staticAdd {
   width: 20%;
 }
-.refreshAndDeleteContainer {
-  width: 20%;
-  padding: 0 5px;
-}
+
 .staticRefresh {
   width: 45%;
 }
 .staticDelete {
   width: 45%;
-  margin: 0 5px;
 }
+.dynamicFormContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.dynamiccheckboxContainer {
+  width: 5%;
+}
+.dynamiclebalContainer {
+  width: 30%;
+}
+.dynamicselectContainer {
+  width: 40%;
+}
+.dynamicrefreshAndDeleteContainer {
+  width: 20%;
+}
+.dynamicRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (max-width: 850px) {
   .container {
     width: 100%;
@@ -183,8 +210,29 @@ h2 {
     margin-right: 7px;
   }
   .formFieldsStatic {
-    width: 18%;
+    width: 50%;
     margin-bottom: 5px;
+  }
+  .formFields {
+    margin-bottom: 5px;
+  }
+  .inputContainer {
+    width: 25%;
+  }
+  .selectAndAddContainer {
+    width: 40%;
+  }
+  .refreshAndDeleteContainer {
+    width: 40%;
+  }
+  .dynamiclebalContainer {
+    width: 21%;
+  }
+  .dynamicselectContainer {
+    width: 35%;
+  }
+  .dynamicrefreshAndDeleteContainer {
+    width: 35%;
   }
   h3 {
     width: 25%;
@@ -195,20 +243,29 @@ h2 {
 }
 @media screen and (max-width: 515px) {
   .formFieldsStatic {
-    width: 42%;
+    width: 50%;
     margin-bottom: 5px;
   }
   .formFields {
-    width: 45%;
     margin-bottom: 5px;
   }
-  .btn {
-    width: 100%;
-    margin-bottom: 5px;
+  .inputContainer {
+    width: 25%;
   }
-  .btnStatic {
-    width: 100%;
-    margin-bottom: 5px;
+  .selectAndAddContainer {
+    width: 40%;
+  }
+  .refreshAndDeleteContainer {
+    width: 40%;
+  }
+  .dynamiclebalContainer {
+    width: 21%;
+  }
+  .dynamicselectContainer {
+    width: 35%;
+  }
+  .dynamicrefreshAndDeleteContainer {
+    width: 35%;
   }
   h3 {
     width: 40%;
@@ -224,9 +281,9 @@ h2 {
     width: auto;
   }
 }
-@media screen and (min-width: 850px) {
+/* @media screen and (min-width: 850px) {
   .colorPicker {
     width: 30%;
     margin-right: 7px;
   }
-}
+}  */

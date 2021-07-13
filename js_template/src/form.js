@@ -159,6 +159,8 @@ export default class Form {
   staticFormGenerate() {
     const main = new Main();
     const staticFormContainer = document.getElementById('staticFormContainer');
+    const nestedButtonContainer = document.createElement('div');
+    nestedButtonContainer.className = 'nestedButtonContainer';
     const checkboxContainer = document.createElement('div');
     checkboxContainer.className = 'checkboxContainer';
     const inputContainer = document.createElement('div');
@@ -173,6 +175,13 @@ export default class Form {
     // const h2 = document.createElement('h2');
     // h2.innerText = 'Dynamically adding element inside the form.';
     // staticFormContainer.appendChild(h2);
+    //
+    const nestedAddIcon = document.createElement('i');
+    nestedAddIcon.className = 'far';
+    nestedAddIcon.classList.add('fa-plus-square');
+    nestedAddIcon.onclick = this.nestedMenu;
+    nestedButtonContainer.appendChild(nestedAddIcon);
+    staticFormContainer.appendChild(nestedButtonContainer);
     //
     const multiDeleteCheckbox = document.createElement('input');
     multiDeleteCheckbox.type = 'checkbox';
@@ -270,6 +279,10 @@ export default class Form {
     refreshAndDeleteContainer.appendChild(deleteButton);
     staticFormContainer.appendChild(refreshAndDeleteContainer);
   }
+  nestedMenu() {
+    const FM = new Form();
+    FM.staticFormGenerate();
+  }
   attrib(input, id, type, value) {
     if (!value) {
       // inside dom
@@ -335,19 +348,23 @@ export default class Form {
     const validData = this.validation(fid);
     if (fid && validData) {
       const rowDiv = document.createElement('div');
+      rowDiv.className = 'dynamicRow';
       // rowDiv.className = fid;
       rowDiv.setAttribute('row', fid);
 
-      const form = document.getElementById('dynamicFormContainer');
-
+      const form = document.getElementById('dynamicForm');
+      const nestedButtonContainer = document.createElement('div');
+      nestedButtonContainer.className = 'nestedButtonContainer';
       const checkboxContainer = document.createElement('div');
-      checkboxContainer.className = 'checkboxContainer';
+      checkboxContainer.className = 'dynamiccheckboxContainer';
       const lebalContainer = document.createElement('div');
-      lebalContainer.className = 'lebalContainer';
+      lebalContainer.className = 'dynamiclebalContainer';
       const inputContainer = document.createElement('div');
-      inputContainer.className = 'selectContainer';
+      inputContainer.className = 'dynamicselectContainer';
       const saveAndRemoveContainer = document.createElement('div');
-      saveAndRemoveContainer.className = 'refreshAndDeleteContainer';
+      saveAndRemoveContainer.className = 'dynamicrefreshAndDeleteContainer';
+
+      rowDiv.appendChild(nestedButtonContainer);
 
       const checkbox = document.createElement('INPUT');
       checkbox.setAttribute('type', 'checkbox');
@@ -395,7 +412,7 @@ export default class Form {
     }
   }
   displayForm(dataArray) {
-    const form = document.getElementById('dynamicFormContainer');
+    const form = document.getElementById('dynamicForm');
     form.innerHTML = '';
     for (const i in dataArray) {
       const id = dataArray[i].id;
@@ -405,6 +422,20 @@ export default class Form {
       const rowDiv = document.createElement('div');
       // rowDiv.className = id;
       rowDiv.setAttribute('id', id);
+      rowDiv.className = 'dynamicRow';
+
+      const nestedButtonContainer = document.createElement('div');
+      nestedButtonContainer.className = 'nestedButtonContainer';
+      const checkboxContainer = document.createElement('div');
+      checkboxContainer.className = 'dynamiccheckboxContainer';
+      const lebalContainer = document.createElement('div');
+      lebalContainer.className = 'dynamiclebalContainer';
+      const inputContainer = document.createElement('div');
+      inputContainer.className = 'dynamicselectContainer';
+      const saveAndRemoveContainer = document.createElement('div');
+      saveAndRemoveContainer.className = 'dynamicrefreshAndDeleteContainer';
+
+      rowDiv.appendChild(nestedButtonContainer);
 
       const checkbox = document.createElement('INPUT');
       checkbox.setAttribute('type', 'checkbox');
@@ -412,17 +443,20 @@ export default class Form {
       checkbox.setAttribute('class', 'formFields');
       checkbox.classList.add('checkbox');
       checkbox.onclick = this.selectedRowForDeletion;
-      rowDiv.appendChild(checkbox);
+      checkboxContainer.appendChild(checkbox);
+      rowDiv.appendChild(checkboxContainer);
 
       const h3 = document.createElement('h3');
       const textNode = document.createTextNode(id);
       h3.appendChild(textNode);
       h3.setAttribute('class', id);
-      rowDiv.appendChild(h3);
+      lebalContainer.appendChild(h3);
+      rowDiv.appendChild(lebalContainer);
 
       const input = document.createElement('input');
       this.attrib(input, id, type, value);
-      rowDiv.appendChild(input);
+      inputContainer.appendChild(input);
+      rowDiv.appendChild(inputContainer);
 
       const save = document.createElement('button');
       this.attrib(save, id, type, value);
@@ -430,7 +464,8 @@ export default class Form {
 
       save.onclick = this.onSave;
       save.innerHTML = 'save';
-      rowDiv.appendChild(save);
+      saveAndRemoveContainer.appendChild(save);
+      rowDiv.appendChild(saveAndRemoveContainer);
 
       const remove = document.createElement('button');
       this.buttonAttrib(remove, id);
@@ -440,7 +475,8 @@ export default class Form {
 
       remove.onclick = this.onRemove;
       remove.innerHTML = 'Remove';
-      rowDiv.appendChild(remove);
+      saveAndRemoveContainer.appendChild(remove);
+      rowDiv.appendChild(saveAndRemoveContainer);
       form.appendChild(rowDiv);
       document.querySelector(`.${id}`).style.backgroundColor = '#C9E4C5';
     }
