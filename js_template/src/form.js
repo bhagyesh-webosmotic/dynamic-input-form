@@ -156,9 +156,10 @@ export default class Form {
       document.getElementById('multiDeleteCheckbox').checked = false;
     }
   }
-  staticFormGenerate(id, classN) {
+  staticFormGenerate(id, classN, parentDivId) {
     const main = new Main();
-
+    const parentDivTobeNested = document.getElementById(parentDivId);
+    console.log(parentDivTobeNested);
     const formDiv = document.getElementById('formDiv');
 
     const formContainer = document.createElement('div');
@@ -187,7 +188,11 @@ export default class Form {
     nestedButtonContainer.appendChild(nestedAddIcon);
     rowDiv.appendChild(nestedButtonContainer);
     formContainer.appendChild(rowDiv);
-    formDiv.appendChild(formContainer);
+    if (parentDivId) {
+      parentDivTobeNested.appendChild(formContainer);
+    } else {
+      formDiv.appendChild(formContainer);
+    }
 
     //
     const multiDeleteCheckbox = document.createElement('input');
@@ -200,7 +205,12 @@ export default class Form {
     checkboxContainer.appendChild(multiDeleteCheckbox);
     rowDiv.appendChild(checkboxContainer);
     formContainer.appendChild(rowDiv);
-    formDiv.appendChild(formContainer);
+    if (parentDivId) {
+      parentDivTobeNested.appendChild(formContainer);
+    } else {
+      formDiv.appendChild(formContainer);
+    }
+
     //
     const idInput = document.createElement('input');
     idInput.setAttribute('type', 'text');
@@ -212,7 +222,11 @@ export default class Form {
     inputContainer.appendChild(idInput);
     rowDiv.appendChild(inputContainer);
     formContainer.appendChild(rowDiv);
-    formDiv.appendChild(formContainer);
+    if (parentDivId) {
+      parentDivTobeNested.appendChild(formContainer);
+    } else {
+      formDiv.appendChild(formContainer);
+    }
 
     //
     const selectOption = document.createElement('select');
@@ -223,7 +237,12 @@ export default class Form {
     selectAndAddContainer.appendChild(selectOption);
     rowDiv.appendChild(selectAndAddContainer);
     formContainer.appendChild(rowDiv);
-    formDiv.appendChild(formContainer);
+    if (parentDivId) {
+      parentDivTobeNested.appendChild(formContainer);
+    } else {
+      formDiv.appendChild(formContainer);
+    }
+
     const optionList = document.getElementById(`${id}-element`).options;
     const options = [
       {
@@ -271,7 +290,12 @@ export default class Form {
     selectAndAddContainer.appendChild(addButton);
     rowDiv.appendChild(selectAndAddContainer);
     formContainer.appendChild(rowDiv);
-    formDiv.appendChild(formContainer);
+    if (parentDivId) {
+      parentDivTobeNested.appendChild(formContainer);
+    } else {
+      formDiv.appendChild(formContainer);
+    }
+
     //
     const refreshButton = document.createElement('input');
     refreshButton.setAttribute('type', 'button');
@@ -283,7 +307,12 @@ export default class Form {
     refreshAndDeleteContainer.appendChild(refreshButton);
     rowDiv.appendChild(refreshAndDeleteContainer);
     formContainer.appendChild(rowDiv);
-    formDiv.appendChild(formContainer);
+    if (parentDivId) {
+      parentDivTobeNested.appendChild(formContainer);
+    } else {
+      formDiv.appendChild(formContainer);
+    }
+
     //
     const deleteButton = document.createElement('input');
     deleteButton.setAttribute('type', 'button');
@@ -296,7 +325,11 @@ export default class Form {
     refreshAndDeleteContainer.appendChild(deleteButton);
     rowDiv.appendChild(refreshAndDeleteContainer);
     formContainer.appendChild(rowDiv);
-    formDiv.appendChild(formContainer);
+    if (parentDivId) {
+      parentDivTobeNested.appendChild(formContainer);
+    } else {
+      formDiv.appendChild(formContainer);
+    }
   }
   nestedMenu(e) {
     // console.log(e.target.parentNode.parentNode.parentNode.id);
@@ -309,7 +342,7 @@ export default class Form {
     let randomNumber = uuidv4();
     if (parentDivId == 'formContainer') {
       console.log('should be nested');
-      FM.staticFormGenerate(randomNumber, nestedClassName);
+      FM.staticFormGenerate(randomNumber, nestedClassName, parentDivId);
     } else {
       FM.staticFormGenerate(randomNumber);
     }
