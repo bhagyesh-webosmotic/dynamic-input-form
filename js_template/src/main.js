@@ -49,8 +49,11 @@ export default class Main {
       const SM = new Storage();
       const dataArray = SM.dataRetrieve();
       const FM = new Form();
-      FM.staticFormGenerate(id, 'abc', '', 'formDiv');
-      // FM.displayForm(dataArray);
+      if (dataArray.length) {
+        FM.displayForm(dataArray);
+      } else {
+        FM.staticFormGenerate(id, 'abc', '', 'formDiv');
+      }
     };
     this.FM.checkAllcheckBoxesFunction = function () {
       const FM = new Form();

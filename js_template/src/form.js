@@ -1,6 +1,7 @@
 import Main, { array, tempArray } from './main.js';
 
 export let fetchedData = [];
+
 export default class Form {
   constructor(fid) {
     this.fid = fid;
@@ -52,7 +53,7 @@ export default class Form {
     const FM = new Form();
     const receivedParentNodes = FM.retriveAllParentClass(currentNode);
     const receivedParentNodesOrder = receivedParentNodes.reverse();
-    console.log(receivedParentNodes.reverse());
+    // console.log(receivedParentNodesOrder);
     const main = new Main();
     main.FM.onSave(id, type, value, currentNodeId, receivedParentNodesOrder);
     main.FM.activeMultiDeleteCheckBox();
@@ -508,72 +509,325 @@ export default class Form {
   displayForm(dataArray) {
     const formDiv = document.getElementById('formDiv');
     formDiv.innerHTML = '';
-    for (const i in dataArray) {
-      const id = dataArray[i].id;
-      const type = dataArray[i].type;
-      const value = dataArray[i].value;
+    if (dataArray && dataArray.length) {
+      for (const i in dataArray[0]) {
+        // console.log(dataArray[0][i]);
+        const main = new Main();
+        const parentDivTobeNested = document.getElementById(dataArray[0][i - 1]);
 
-      const rowDiv = document.createElement('div');
-      // rowDiv.className = id;
-      rowDiv.setAttribute('id', id);
-      rowDiv.className = 'dynamicRow';
+        const formContainer = document.createElement('div');
+        formContainer.id = dataArray[0][i];
+        formContainer.className = 'formContainer';
+        if (dataArray[0][i] != 'formContainer') {
+          formContainer.classList.add('netstedDiv');
+        }
 
-      const nestedButtonContainer = document.createElement('div');
-      nestedButtonContainer.className = 'nestedButtonContainer';
-      const checkboxContainer = document.createElement('div');
-      checkboxContainer.className = 'dynamiccheckboxContainer';
-      const lebalContainer = document.createElement('div');
-      lebalContainer.className = 'dynamiclebalContainer';
-      const inputContainer = document.createElement('div');
-      inputContainer.className = 'dynamicselectContainer';
-      const saveAndRemoveContainer = document.createElement('div');
-      saveAndRemoveContainer.className = 'dynamicrefreshAndDeleteContainer';
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'adder';
+        rowDiv.id = dataArray[0][i];
 
-      rowDiv.appendChild(nestedButtonContainer);
+        const nestedButtonContainer = document.createElement('div');
+        nestedButtonContainer.className = 'nestedButtonContainer';
+        const checkboxContainer = document.createElement('div');
+        checkboxContainer.className = 'checkboxContainer';
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'inputContainer';
+        const selectAndAddContainer = document.createElement('div');
+        selectAndAddContainer.className = 'selectAndAddContainer';
+        const refreshAndDeleteContainer = document.createElement('div');
+        refreshAndDeleteContainer.className = 'refreshAndDeleteContainer';
+        //
+        const nestedAddIcon = document.createElement('i');
+        nestedAddIcon.className = 'fas';
+        nestedAddIcon.classList.add('fa-plus-circle');
+        nestedAddIcon.onclick = this.nestedMenu;
+        nestedButtonContainer.appendChild(nestedAddIcon);
+        rowDiv.appendChild(nestedButtonContainer);
+        formContainer.appendChild(rowDiv);
+        if (dataArray[0][i] == 'formContainer') {
+          document.getElementById('formDiv').appendChild(formContainer);
+        } else {
+          parentDivTobeNested.appendChild(formContainer);
+        }
 
-      const checkbox = document.createElement('INPUT');
-      checkbox.setAttribute('type', 'checkbox');
-      checkbox.setAttribute('id', id);
-      checkbox.setAttribute('class', 'formFields');
-      checkbox.classList.add('checkbox');
-      checkbox.onclick = this.selectedRowForDeletion;
-      checkboxContainer.appendChild(checkbox);
-      rowDiv.appendChild(checkboxContainer);
+        //
+        const multiDeleteCheckbox = document.createElement('input');
+        multiDeleteCheckbox.type = 'checkbox';
+        multiDeleteCheckbox.id = 'multiDeleteCheckbox';
+        multiDeleteCheckbox.name = 'multiDeleteCheckbox';
+        multiDeleteCheckbox.className = 'multiDeleteCheckbox';
+        multiDeleteCheckbox.classList.add('formFieldsStatic');
+        multiDeleteCheckbox.onclick = main.FM.checkAllcheckBoxesFunction;
+        checkboxContainer.appendChild(multiDeleteCheckbox);
+        rowDiv.appendChild(checkboxContainer);
+        formContainer.appendChild(rowDiv);
+        if (dataArray[0][i] == 'formContainer') {
+          document.getElementById('formDiv').appendChild(formContainer);
+        } else {
+          parentDivTobeNested.appendChild(formContainer);
+        }
 
-      const h3 = document.createElement('h3');
-      const textNode = document.createTextNode(id);
-      h3.appendChild(textNode);
-      h3.setAttribute('class', id);
-      lebalContainer.appendChild(h3);
-      rowDiv.appendChild(lebalContainer);
+        //
+        const idInput = document.createElement('input');
+        idInput.setAttribute('type', 'text');
+        idInput.name = 'idName';
+        idInput.className = 'formFieldsStatic';
+        idInput.classList.add('staticInput');
+        idInput.id = 'idInput';
+        idInput.placeholder = 'Enter ID';
+        inputContainer.appendChild(idInput);
+        rowDiv.appendChild(inputContainer);
+        formContainer.appendChild(rowDiv);
+        if (dataArray[0][i] == 'formContainer') {
+          document.getElementById('formDiv').appendChild(formContainer);
+        } else {
+          parentDivTobeNested.appendChild(formContainer);
+        }
 
-      const input = document.createElement('input');
-      this.attrib(input, id, type, value);
-      inputContainer.appendChild(input);
-      rowDiv.appendChild(inputContainer);
+        //
+        const selectOption = document.createElement('select');
+        selectOption.name = 'element';
+        selectOption.className = 'formFieldsStatic';
+        selectOption.classList.add('staticSelect');
+        selectOption.id = `${i}-element`;
+        selectAndAddContainer.appendChild(selectOption);
+        rowDiv.appendChild(selectAndAddContainer);
+        formContainer.appendChild(rowDiv);
+        if (dataArray[0][i] == 'formContainer') {
+          document.getElementById('formDiv').appendChild(formContainer);
+        } else {
+          parentDivTobeNested.appendChild(formContainer);
+        }
 
-      const save = document.createElement('button');
-      this.attrib(save, id, type, value);
-      this.buttonAttrib(save, id, type);
+        const optionList = document.getElementById(`${i}-element`).options;
+        const options = [
+          {
+            text: 'Text',
+            value: 'text',
+            selected: true,
+          },
+          {
+            text: 'Date',
+            value: 'date',
+          },
+          {
+            text: 'Datetime',
+            value: 'datetime-local',
+          },
+          {
+            text: 'Number',
+            value: 'number',
+          },
+          {
+            text: 'Color',
+            value: 'color',
+          },
+          {
+            text: 'Range',
+            value: 'range',
+          },
+          {
+            text: 'E-mail',
+            value: 'email',
+          },
+          {
+            text: 'Submit',
+            value: 'submit',
+          },
+        ];
+        options.forEach((option) => optionList.add(new Option(option.text, option.value, option.selected)));
+        //
+        const addButton = document.createElement('input');
+        addButton.setAttribute('type', 'button');
+        addButton.className = 'btnStatic';
+        addButton.classList.add('staticAdd');
+        addButton.value = 'Add';
+        addButton.onclick = main.FM.createFormRow;
+        selectAndAddContainer.appendChild(addButton);
+        rowDiv.appendChild(selectAndAddContainer);
+        formContainer.appendChild(rowDiv);
+        if (dataArray[0][i] == 'formContainer') {
+          document.getElementById('formDiv').appendChild(formContainer);
+        } else {
+          parentDivTobeNested.appendChild(formContainer);
+        }
 
-      save.onclick = this.onSave;
-      save.innerHTML = 'save';
-      saveAndRemoveContainer.appendChild(save);
-      rowDiv.appendChild(saveAndRemoveContainer);
+        //
+        const refreshButton = document.createElement('input');
+        refreshButton.setAttribute('type', 'button');
+        refreshButton.id = 'Refresh';
+        refreshButton.className = 'btnStatic';
+        refreshButton.classList.add('staticRefresh');
+        refreshButton.value = 'Refresh';
+        refreshButton.onclick = main.FM.refreshPage;
+        refreshAndDeleteContainer.appendChild(refreshButton);
+        rowDiv.appendChild(refreshAndDeleteContainer);
+        formContainer.appendChild(rowDiv);
+        if (dataArray[0][i] == 'formContainer') {
+          document.getElementById('formDiv').appendChild(formContainer);
+        } else {
+          parentDivTobeNested.appendChild(formContainer);
+        }
 
-      const remove = document.createElement('button');
-      this.buttonAttrib(remove, id);
-      // remove.setAttribute("type", "button");
-      remove.setAttribute('name', id);
-      // remove.setAttribute("class", "btn");
+        //
+        const deleteButton = document.createElement('input');
+        deleteButton.setAttribute('type', 'button');
+        deleteButton.id = 'delete';
+        deleteButton.className = 'btnStatic';
+        deleteButton.classList.add('multiDelete');
+        deleteButton.classList.add('staticDelete');
+        deleteButton.value = 'Delete';
+        deleteButton.onclick = main.SM.multiRowDeleteFunction;
+        refreshAndDeleteContainer.appendChild(deleteButton);
+        rowDiv.appendChild(refreshAndDeleteContainer);
+        formContainer.appendChild(rowDiv);
+        if (dataArray[0][i] == 'formContainer') {
+          document.getElementById('formDiv').appendChild(formContainer);
+        } else {
+          parentDivTobeNested.appendChild(formContainer);
+        }
+      }
 
-      remove.onclick = this.onRemove;
-      remove.innerHTML = 'Remove';
-      saveAndRemoveContainer.appendChild(remove);
-      rowDiv.appendChild(saveAndRemoveContainer);
-      formDiv.appendChild(rowDiv);
-      document.querySelector(`.${id}`).style.backgroundColor = '#C9E4C5';
+      ////////////////////////////////////////////////////////
+      for (const j in dataArray) {
+        console.log(dataArray[j]);
+        let itr = 0;
+        if (j > 1) {
+          const rowDiv = document.createElement('div');
+          rowDiv.className = 'dynamicRow';
+          rowDiv.setAttribute('row', dataArray[j].id);
+          rowDiv.id = dataArray[0][itr];
+          console.log(dataArray[j]);
+          itr++;
+          const formContainer = document.getElementById(dataArray[j].nodeId);
+
+          const nestedButtonContainer = document.createElement('div');
+          nestedButtonContainer.className = 'nestedButtonContainer';
+          const checkboxContainer = document.createElement('div');
+          checkboxContainer.className = 'dynamiccheckboxContainer';
+          const lebalContainer = document.createElement('div');
+          lebalContainer.className = 'dynamiclebalContainer';
+          const inputContainer = document.createElement('div');
+          inputContainer.className = 'dynamicselectContainer';
+          const saveAndRemoveContainer = document.createElement('div');
+          saveAndRemoveContainer.className = 'dynamicrefreshAndDeleteContainer';
+
+          rowDiv.appendChild(nestedButtonContainer);
+
+          const checkbox = document.createElement('INPUT');
+          checkbox.setAttribute('type', 'checkbox');
+          checkbox.setAttribute('name', dataArray[j].id);
+          checkbox.setAttribute('class', 'formFields');
+          checkbox.classList.add('checkbox');
+          checkbox.onclick = this.selectedTempRowForDeletion;
+          checkboxContainer.appendChild(checkbox);
+          rowDiv.appendChild(checkboxContainer);
+
+          const h3 = document.createElement('h3');
+          const textNode = document.createTextNode(dataArray[j].id);
+          h3.appendChild(textNode);
+          h3.setAttribute('name', dataArray[j].id);
+          h3.setAttribute('class', dataArray[j].id);
+          lebalContainer.appendChild(h3);
+          rowDiv.appendChild(lebalContainer);
+
+          const input = document.createElement('input');
+          this.attrib(input, dataArray[j].id, dataArray[j].type);
+          inputContainer.appendChild(input);
+          rowDiv.appendChild(inputContainer);
+
+          const save = document.createElement('button');
+          this.buttonAttrib(save, dataArray[j].id, dataArray[j].type);
+
+          save.onclick = this.onSave;
+          save.innerHTML = 'save';
+          saveAndRemoveContainer.appendChild(save);
+          rowDiv.appendChild(saveAndRemoveContainer);
+
+          const remove = document.createElement('button');
+          this.buttonAttrib(remove, dataArray[j].id);
+          remove.setAttribute('id', dataArray[j].id);
+
+          remove.onclick = this.removeTempRow;
+          remove.innerHTML = 'Remove';
+          saveAndRemoveContainer.appendChild(remove);
+          rowDiv.appendChild(saveAndRemoveContainer);
+          formContainer.appendChild(rowDiv);
+
+          const main = new Main();
+          main.FM.activeMultiDeleteCheckBox();
+          this.clearForm();
+        }
+      }
     }
+
+    // for (const i in dataArray) {
+    //   const id = dataArray[i].id;
+    //   const type = dataArray[i].type;
+    //   const value = dataArray[i].value;
+
+    //   const rowDiv = document.createElement('div');
+    //   // rowDiv.className = id;
+    //   rowDiv.setAttribute('id', id);
+    //   rowDiv.className = 'dynamicRow';
+
+    //   const nestedButtonContainer = document.createElement('div');
+    //   nestedButtonContainer.className = 'nestedButtonContainer';
+    //   const checkboxContainer = document.createElement('div');
+    //   checkboxContainer.className = 'dynamiccheckboxContainer';
+    //   const lebalContainer = document.createElement('div');
+    //   lebalContainer.className = 'dynamiclebalContainer';
+    //   const inputContainer = document.createElement('div');
+    //   inputContainer.className = 'dynamicselectContainer';
+    //   const saveAndRemoveContainer = document.createElement('div');
+    //   saveAndRemoveContainer.className = 'dynamicrefreshAndDeleteContainer';
+
+    //   rowDiv.appendChild(nestedButtonContainer);
+
+    //   const checkbox = document.createElement('INPUT');
+    //   checkbox.setAttribute('type', 'checkbox');
+    //   checkbox.setAttribute('id', id);
+    //   checkbox.setAttribute('class', 'formFields');
+    //   checkbox.classList.add('checkbox');
+    //   checkbox.onclick = this.selectedRowForDeletion;
+    //   checkboxContainer.appendChild(checkbox);
+    //   rowDiv.appendChild(checkboxContainer);
+
+    //   const h3 = document.createElement('h3');
+    //   const textNode = document.createTextNode(id);
+    //   h3.appendChild(textNode);
+    //   h3.setAttribute('class', id);
+    //   lebalContainer.appendChild(h3);
+    //   rowDiv.appendChild(lebalContainer);
+
+    //   const input = document.createElement('input');
+    //   this.attrib(input, id, type, value);
+    //   inputContainer.appendChild(input);
+    //   rowDiv.appendChild(inputContainer);
+
+    //   const save = document.createElement('button');
+    //   this.attrib(save, id, type, value);
+    //   this.buttonAttrib(save, id, type);
+
+    //   save.onclick = this.onSave;
+    //   save.innerHTML = 'save';
+    //   saveAndRemoveContainer.appendChild(save);
+    //   rowDiv.appendChild(saveAndRemoveContainer);
+
+    //   const remove = document.createElement('button');
+    //   this.buttonAttrib(remove, id);
+    //   // remove.setAttribute("type", "button");
+    //   remove.setAttribute('name', id);
+    //   // remove.setAttribute("class", "btn");
+
+    //   remove.onclick = this.onRemove;
+    //   remove.innerHTML = 'Remove';
+    //   saveAndRemoveContainer.appendChild(remove);
+    //   rowDiv.appendChild(saveAndRemoveContainer);
+    //   formDiv.appendChild(rowDiv);
+    //   document.querySelector(`.${id}`).style.backgroundColor = '#C9E4C5';
+    // }
+
     if (dataArray.length) {
       const main = new Main();
       main.FM.activeMultiDeleteCheckBox();

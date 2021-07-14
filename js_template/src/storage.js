@@ -15,6 +15,7 @@ export default class Storage {
     if (localStorage['input'] === undefined) {
       localStorage['input'] = '[]';
     } else {
+      console.log(nodeTree);
       let dataArray = [];
       dataArray = JSON.parse(localStorage['input']);
       if (!dataArray.length) {
