@@ -1,4 +1,6 @@
 import Main, { array, tempArray } from './main.js';
+
+export const fetchedData = [];
 export default class Form {
   constructor(fid) {
     this.fid = fid;
@@ -22,10 +24,32 @@ export default class Form {
       this.disableDeleteButtonAfterDelete();
     }
   }
+  retriveAllParentClass(currentNode) {
+    let currentFetchedNode;
+    if (currentNode.parentNode != null && currentNode.parentNode.id != 'formDiv') {
+      const found = fetchedData.find((element) => element == currentNode.id);
+      if (!found) {
+        fetchedData.push(currentNode.id);
+      }
+      const fetchedParentNodeId = currentNode.parentNode.id;
+      fetchedData.push(fetchedParentNodeId);
+      currentFetchedNode = currentNode.parentNode;
+      const FM = new Form();
+      FM.retriveAllParentClass(currentFetchedNode);
+    }
+    return fetchedData;
+  }
   onSave(e) {
     const id = e.target.name;
     const type = e.target.getAttribute('input-type');
     const value = document.getElementById(e.target.name).value;
+    // console.log(e.target.parentNode.parentNode.parentNode.id); current node
+    // console.log(e.target.parentNode.parentNode.parentNode.parentNode.id);
+    const parentNodeExists = e.target.parentNode.parentNode.parentNode.parentNode;
+    const currentNode = e.target.parentNode.parentNode.parentNode;
+    const FM = new Form();
+    const receivedParentNodes = FM.retriveAllParentClass(currentNode);
+    console.log(receivedParentNodes);
     const main = new Main();
     main.FM.onSave(id, type, value);
     main.FM.activeMultiDeleteCheckBox();
@@ -156,11 +180,10 @@ export default class Form {
       document.getElementById('multiDeleteCheckbox').checked = false;
     }
   }
-  staticFormGenerate(id, classN, parentDivId) {
+  staticFormGenerate(id, classN, parentDivId, nestingDiv) {
     const main = new Main();
+    const formDiv = document.getElementById(nestingDiv);
     const parentDivTobeNested = document.getElementById(parentDivId);
-    console.log(parentDivTobeNested);
-    const formDiv = document.getElementById('formDiv');
 
     const formContainer = document.createElement('div');
     formContainer.id = `${id}`;
@@ -334,15 +357,17 @@ export default class Form {
   nestedMenu(e) {
     // console.log(e.target.parentNode.parentNode.parentNode.id);
     const parentDivId = e.target.parentNode.parentNode.parentNode.id;
+    const nestingDiv = parentDivId;
     // console.log(e.target.parentNode.parentNode.parentNode.id);
-    console.log(e.target.parentNode.parentNode.parentNode.id);
+    // console.log(e.target.parentNode.parentNode.parentNode.id);
     // const nestedParentDiv = e.target.parentNode.parentNode.parentNode.id;
     const FM = new Form();
     const nestedClassName = 'netstedDiv';
     let randomNumber = uuidv4();
     if (parentDivId == 'formContainer') {
-      console.log('should be nested');
-      FM.staticFormGenerate(randomNumber, nestedClassName, parentDivId);
+      FM.staticFormGenerate(randomNumber, nestedClassName, parentDivId, 'formDiv');
+    } else if (parentDivId != 'formContainer') {
+      FM.staticFormGenerate(randomNumber, nestedClassName, parentDivId, nestingDiv);
     } else {
       FM.staticFormGenerate(randomNumber);
     }
@@ -409,7 +434,7 @@ export default class Form {
     return main.SM.createMainInstance(id);
   }
   createForm(fid, type, divId) {
-    const validData = this.validation(fid);
+    // const validData = this.validation(fid);
     if (fid) {
       const rowDiv = document.createElement('div');
       rowDiv.className = 'dynamicRow';
@@ -476,8 +501,8 @@ export default class Form {
     }
   }
   displayForm(dataArray) {
-    const form = document.getElementById('dynamicForm');
-    form.innerHTML = '';
+    const formDiv = document.getElementById('formDiv');
+    formDiv.innerHTML = '';
     for (const i in dataArray) {
       const id = dataArray[i].id;
       const type = dataArray[i].type;
@@ -541,7 +566,7 @@ export default class Form {
       remove.innerHTML = 'Remove';
       saveAndRemoveContainer.appendChild(remove);
       rowDiv.appendChild(saveAndRemoveContainer);
-      form.appendChild(rowDiv);
+      formDiv.appendChild(rowDiv);
       document.querySelector(`.${id}`).style.backgroundColor = '#C9E4C5';
     }
     if (dataArray.length) {

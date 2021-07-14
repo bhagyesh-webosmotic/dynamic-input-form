@@ -49,7 +49,7 @@ export default class Main {
       const SM = new Storage();
       const dataArray = SM.dataRetrieve();
       const FM = new Form();
-      FM.staticFormGenerate(id);
+      FM.staticFormGenerate(id, 'abc', '', 'formDiv');
       // FM.displayForm(dataArray);
     };
     this.FM.checkAllcheckBoxesFunction = function () {
@@ -61,9 +61,9 @@ export default class Main {
       const triggeredDiv = e.target.parentNode.parentNode.parentNode.id;
       const FM = new Form();
       if (triggeredDiv !== 'formContainer') {
-        console.log(e.target.parentNode.childNodes[0].value);
-        console.log(e.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
-        console.log(e.target.parentNode.parentNode.parentNode.id);
+        // console.log(e.target.parentNode.childNodes[0].value);
+        // console.log(e.target.parentNode.parentNode.childNodes[2].childNodes[0].value);
+        // console.log(e.target.parentNode.parentNode.parentNode.id);
         FM.createForm(
           e.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
           e.target.parentNode.childNodes[0].value,

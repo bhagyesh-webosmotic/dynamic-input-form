@@ -204,7 +204,8 @@ h2 {
   align-items: center;
 }
 .netstedDiv {
-  margin-left: 100px;
+  margin-left: 10%;
+  width: 100%;
 }
 @media screen and (max-width: 850px) {
   .container {
