@@ -73,9 +73,9 @@ export default class Main {
         FM.createForm(document.forms[0][1].value, document.forms[0].element.value, 'formContainer');
       }
     };
-    this.FM.onSave = function (id, type, value) {
+    this.FM.onSave = function (id, type, value, nodeId, nodeTree) {
       this.SM = new Storage(this.sid);
-      this.SM.addRow(id, type, value);
+      this.SM.addRow(id, type, value, nodeId, nodeTree);
       this.clearForm();
     };
     this.FM.onRemove = function (removeRowId) {

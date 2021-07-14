@@ -1,23 +1,28 @@
 import Main from './main.js';
 
-function structure(id, type, value) {
+function structure(id, type, value, nodeId) {
   this.id = id;
   this.type = type;
   this.value = value;
+  this.nodeId = nodeId;
 }
 
 export default class Storage {
   constructor(sid) {
     this.sid = sid;
   }
-  addRow(id, type, value) {
+  addRow(id, type, value, nodeId, nodeTree) {
     if (localStorage['input'] === undefined) {
       localStorage['input'] = '[]';
     } else {
       let dataArray = [];
       dataArray = JSON.parse(localStorage['input']);
-
-      const obj = new structure(id, type, value);
+      if (!dataArray.length) {
+        dataArray.push(nodeTree);
+      } else if (nodeTree.length > dataArray[0].length) {
+        dataArray.splice(nodeTree, 1, nodeTree);
+      }
+      const obj = new structure(id, type, value, nodeId);
 
       dataArray.forEach((element) => {
         if (element.id == id) {

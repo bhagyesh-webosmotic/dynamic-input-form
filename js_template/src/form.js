@@ -1,6 +1,6 @@
 import Main, { array, tempArray } from './main.js';
 
-export const fetchedData = [];
+export let fetchedData = [];
 export default class Form {
   constructor(fid) {
     this.fid = fid;
@@ -40,6 +40,7 @@ export default class Form {
     return fetchedData;
   }
   onSave(e) {
+    fetchedData = [];
     const id = e.target.name;
     const type = e.target.getAttribute('input-type');
     const value = document.getElementById(e.target.name).value;
@@ -47,11 +48,13 @@ export default class Form {
     // console.log(e.target.parentNode.parentNode.parentNode.parentNode.id);
     const parentNodeExists = e.target.parentNode.parentNode.parentNode.parentNode;
     const currentNode = e.target.parentNode.parentNode.parentNode;
+    const currentNodeId = currentNode.id;
     const FM = new Form();
     const receivedParentNodes = FM.retriveAllParentClass(currentNode);
-    console.log(receivedParentNodes);
+    const receivedParentNodesOrder = receivedParentNodes.reverse();
+    console.log(receivedParentNodes.reverse());
     const main = new Main();
-    main.FM.onSave(id, type, value);
+    main.FM.onSave(id, type, value, currentNodeId, receivedParentNodesOrder);
     main.FM.activeMultiDeleteCheckBox();
   }
   onRemove(e) {
@@ -192,6 +195,7 @@ export default class Form {
 
     const rowDiv = document.createElement('div');
     rowDiv.className = 'adder';
+    rowDiv.id = id;
 
     const nestedButtonContainer = document.createElement('div');
     nestedButtonContainer.className = 'nestedButtonContainer';
@@ -205,8 +209,8 @@ export default class Form {
     refreshAndDeleteContainer.className = 'refreshAndDeleteContainer';
     //
     const nestedAddIcon = document.createElement('i');
-    nestedAddIcon.className = 'far';
-    nestedAddIcon.classList.add('fa-plus-square');
+    nestedAddIcon.className = 'fas';
+    nestedAddIcon.classList.add('fa-plus-circle');
     nestedAddIcon.onclick = this.nestedMenu;
     nestedButtonContainer.appendChild(nestedAddIcon);
     rowDiv.appendChild(nestedButtonContainer);
@@ -439,6 +443,7 @@ export default class Form {
       const rowDiv = document.createElement('div');
       rowDiv.className = 'dynamicRow';
       rowDiv.setAttribute('row', fid);
+      rowDiv.id = divId;
 
       const formContainer = document.getElementById(`${divId}`);
 
