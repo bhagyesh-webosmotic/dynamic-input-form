@@ -1,10 +1,11 @@
 import Main from './main.js';
 
-function structure(id, type, value, nodeId) {
+function structure(id, type, value, nodeId, nodeTree) {
   this.id = id;
   this.type = type;
   this.value = value;
   this.nodeId = nodeId;
+  this.nodeTree = nodeTree;
 }
 
 export default class Storage {
@@ -15,15 +16,15 @@ export default class Storage {
     if (localStorage['input'] === undefined) {
       localStorage['input'] = '[]';
     } else {
-      console.log(nodeTree);
+      // console.log(nodeTree);
       let dataArray = [];
       dataArray = JSON.parse(localStorage['input']);
-      if (!dataArray.length) {
-        dataArray.push(nodeTree);
-      } else if (nodeTree.length > dataArray[0].length) {
-        dataArray.splice(nodeTree, 1, nodeTree);
-      }
-      const obj = new structure(id, type, value, nodeId);
+      // if (!dataArray.length) {
+      //   dataArray.push(nodeTree);
+      // } else if (nodeTree.length > dataArray[0].length) {
+      //   dataArray.splice(nodeTree, 1, nodeTree);
+      // }
+      const obj = new structure(id, type, value, nodeId, nodeTree);
 
       dataArray.forEach((element) => {
         if (element.id == id) {

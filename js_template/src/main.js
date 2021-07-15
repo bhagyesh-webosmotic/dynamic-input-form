@@ -94,8 +94,12 @@ export default class Main {
       const FM = new Form();
       const SM = new Storage();
       const dataArray = SM.dataRetrieve();
-      FM.clearForm();
-      // FM.displayForm(dataArray);
+      // FM.clearForm();
+      if (dataArray.length) {
+        FM.displayForm(dataArray);
+      } else {
+        location.reload();
+      }
       array = [];
       tempArray = [];
     };
